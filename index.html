@@ -4,53 +4,48 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>แรงดันจอมซิ่ง</title>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@600;800&family=Pixelify+Sans:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;800&family=Mali:wght@700&display=swap" rel="stylesheet">
 <style>
-  html,body{margin:0;height:100%;overflow:hidden;background:#05071a;font-family:"Pixelify Sans","Kanit",Tahoma,sans-serif;color:#fff}
-  canvas{position:fixed;inset:0;width:100vw;height:100vh;image-rendering:pixelated;image-rendering:crisp-edges}
-  body::after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px);z-index:5}
+  html,body{margin:0;height:100%;overflow:hidden;background:#6ec6ff;font-family:"Kanit",Tahoma,sans-serif;color:#fff}
+  canvas{position:fixed;inset:0;width:100vw;height:100vh}
   video{display:none}
-  .card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:6;width:min(900px,90vw);max-height:92vh;overflow:auto;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:26px;background:#1a1340;color:#fff;border:6px solid #fff;outline:6px solid #000;box-shadow:16px 16px 0 #000}
-  .card h1{margin:0;line-height:0}
-  .card h1 canvas{position:static;width:auto;height:auto}
-  .card p{font-size:clamp(17px,2vw,24px);margin:0;line-height:1.45}
+  .card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:6;width:min(900px,90vw);max-height:92vh;overflow:auto;box-sizing:border-box;
+        display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:40px 28px 28px;
+        background:linear-gradient(180deg,#ffffff,#eaf6ff);color:#17325c;border-radius:28px;border:5px solid #1f5fc4;
+        box-shadow:0 12px 0 #123d82,0 26px 50px rgba(0,0,0,.35)}
+  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:20px;border-radius:22px 22px 0 0;
+        background:repeating-conic-gradient(#17325c 0 25%,#fff 0 50%) 0 0/20px 20px}
+  .card h1{margin:0;font-family:"Mali","Kanit",sans-serif;font-size:clamp(40px,6vw,72px);line-height:1.15;color:#ff4f6d;
+        text-shadow:0 4px 0 #ffd23f,0 8px 0 #17325c}
+  .card p{font-size:clamp(17px,2vw,23px);margin:0;line-height:1.5}
   .row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center}
-  button{font:inherit;font-family:"Kanit",Tahoma,sans-serif;font-size:clamp(18px,2.1vw,26px);padding:10px 24px;border:4px solid #000;border-radius:0;cursor:pointer;background:#ffcf33;color:#000;font-weight:800;box-shadow:inset -5px -5px 0 rgba(0,0,0,.3),inset 5px 5px 0 rgba(255,255,255,.5),6px 6px 0 #000}
-  button:active{transform:translate(4px,4px);box-shadow:inset 5px 5px 0 rgba(0,0,0,.3),2px 2px 0 #000}
-  button.blue{background:#4fd7ff} button.pink{background:#ff5fa2}
-  button.tog{font-size:clamp(15px,1.6vw,20px);padding:8px 16px;background:#c9c3e6;box-shadow:inset -4px -4px 0 rgba(0,0,0,.3),4px 4px 0 #000}
-  button.tog.on{background:#7be39a}
-  .card p,.label,.lbtitle,table{font-family:"Kanit",Tahoma,sans-serif}
-  button.small{font-size:18px;padding:8px 18px}
-  .label{font-weight:700;font-size:18px}
-  input{font:inherit;font-size:24px;padding:10px 14px;border:4px solid #000;border-radius:0;width:min(320px,60vw);background:#fff;color:#000;font-family:"Kanit",Tahoma,sans-serif}
-  table{border-collapse:collapse;font-size:clamp(15px,1.6vw,20px);min-width:min(460px,80vw)}
-  th,td{padding:4px 12px;border-bottom:2px dashed #5a4f9a}
-  th{border-bottom:4px solid #fff;color:#ffcf33}
-  tr.me td{background:#ffcf33;color:#000;font-weight:800}
-  .lbtitle{font-weight:700;font-size:20px;margin-top:4px}
+  button{font:inherit;font-size:clamp(19px,2.2vw,26px);font-weight:800;padding:12px 30px;border:none;border-radius:999px;cursor:pointer;color:#fff;
+         background:linear-gradient(180deg,#ff6b84,#e23a58);box-shadow:0 6px 0 #a3203a,0 12px 20px rgba(0,0,0,.18)}
+  button:active{transform:translateY(5px);box-shadow:0 1px 0 #a3203a}
+  button.blue{background:linear-gradient(180deg,#4fa8ff,#1f6fe0);box-shadow:0 6px 0 #154f9e,0 12px 20px rgba(0,0,0,.18)}
+  button.tog{font-size:clamp(16px,1.7vw,21px);padding:10px 20px;color:#17325c;background:#e3eefc;box-shadow:0 5px 0 #b3c6e3}
+  button.tog.on{background:linear-gradient(180deg,#ffe066,#ffc21f);box-shadow:0 5px 0 #c98f00}
+  .label{font-weight:800;font-size:20px}
   .hidden{display:none!important}
-  .legend span{font-family:Kanit,Tahoma,sans-serif;font-weight:800;padding:6px 14px;border:4px solid #000;color:#fff;font-size:clamp(15px,1.7vw,20px)}
-  #status{font-size:16px;color:#a9a2d6;font-family:"Kanit",Tahoma,sans-serif}
+  #status{font-size:16px;color:#5a7499}
 </style>
 </head>
 <body>
 <video id="video" playsinline muted></video>
 <canvas id="c"></canvas>
-<canvas id="u"></canvas>
 
 <div id="start" class="card">
   <h1>แรงดันจอมซิ่ง!</h1>
-  <p><b>ปัดมือไปทางขวา</b> ผ่านตัวรถเพื่อดันให้วิ่ง<br>ยิ่งปัดแรง รถยิ่งไปไกล ต้องจอดให้ตรงธงนะ อย่าให้ตกหน้าผา!</p>
+  <p><b>แบมือ แล้วปัดไปทางขวา</b> ตรงไหนของจอก็ได้ รถจะพุ่งออกไปเลย<br>ปัดเร็ว = แรงมาก รถไปไกล · จอดให้ตรงธง อย่าให้ตกน้ำนะ!</p>
   <div class="row">
     <span class="label">เลือกรถ:</span>
-    <button id="car0" class="tog" onclick="setCar(0)">รถเข็น (เบา)</button>
-    <button id="car1" class="tog on" onclick="setCar(1)">รถเก๋ง (กลาง)</button>
-    <button id="car2" class="tog" onclick="setCar(2)">รถบรรทุก (หนัก)</button>
+    <button id="car0" class="tog" onclick="setCar(0)">🏎️ โกคาร์ท (เบา)</button>
+    <button id="car1" class="tog on" onclick="setCar(1)">🚗 รถเก๋ง (กลาง)</button>
+    <button id="car2" class="tog" onclick="setCar(2)">🚚 รถบรรทุก (หนัก)</button>
   </div>
   <div class="row">
     <button class="blue" onclick="startGame('solo')">เล่นคนเดียว</button>
-    <button class="pink" onclick="startGame('duo')">แข่ง 2 คน</button>
+    <button onclick="startGame('duo')">แข่ง 2 คน</button>
   </div>
   <div id="status">กำลังเปิดกล้อง...</div>
 </div>
@@ -63,40 +58,38 @@
 
 <script type="module">
 const canvas = document.getElementById('c'), ctx = canvas.getContext('2d');
-const ucanvas = document.getElementById('u'), U = ucanvas.getContext('2d');
 const video = document.getElementById('video'), statusEl = document.getElementById('status');
-const PX = 4, PXU = 2;
-const INK = '#000', PAPER = '#1a1340', THAI = 'Kanit,Tahoma,sans-serif';
+const THAI = 'Kanit,Tahoma,sans-serif', FUN = 'Mali,Kanit,Tahoma,sans-serif';
 const P_COLORS = ['#ff5fa2', '#3fb6ff'], P_NAMES = ['ฝั่งซ้าย', 'ฝั่งขวา'];
-let W, H;
+let W, H, DPR = 1;
 
 // ---------- ข้อมูลเกม ----------
 const LEVELS = [
-  {name:'ถนน',       mu:1.0,  c:0.60, top:'#6b6b78', mid:'#4a4a55', deco:'road',
-   hint:'ถนนเรียบ แรงเสียดทานปานกลาง ลองกะแรงดู!', fact:'แรงเสียดทานคือแรงที่ต้านการเคลื่อนที่ ทำให้รถค่อย ๆ หยุด'},
-  {name:'สนามหญ้า', mu:1.7,  c:0.55, top:'#4caf50', mid:'#2e7d32', deco:'grass',
-   hint:'หญ้าขรุขระกว่าถนน ต้องดันแรงขึ้นนะ!', fact:'พื้นยิ่งขรุขระ แรงเสียดทานยิ่งมาก รถเลยหยุดเร็วกว่า'},
-  {name:'ทราย',      mu:3.0,  c:0.50, top:'#f2d27a', mid:'#c9a24f', deco:'sand',
-   hint:'ทรายหนืดมาก! ต้องปัดแรงสุด ๆ', fact:'ทรายมีแรงเสียดทานสูงมาก ล้อรถจมและหยุดเร็ว'},
-  {name:'ลานน้ำแข็ง', mu:0.25, c:0.70, top:'#c9f3ff', mid:'#7fc8e8', deco:'ice',
-   hint:'ลื่นปรี๊ด! ปัดเบา ๆ ก็พอ ระวังตกหน้าผา!', fact:'น้ำแข็งลื่น แรงเสียดทานน้อยมาก รถเลยไถลไปได้ไกล'},
+  {name:'ถนนชนบท', surf:'ถนน', mu:1.0, c:0.60, theme:'road', sky:['#5bb8ff','#c9ecff'],
+   hint:'ถนนเรียบ แรงเสียดทานปานกลาง ลองกะแรงดูนะ!', fact:'แรงเสียดทานคือแรงที่ต้านการเคลื่อนที่ ทำให้รถค่อย ๆ ช้าลงจนหยุด'},
+  {name:'ทุ่งดอกไม้', surf:'หญ้า', mu:1.4, c:0.55, theme:'grass', sky:['#7fd0ff','#f0fbff'],
+   hint:'หญ้าขรุขระกว่าถนน ต้องปัดแรงขึ้นนะ!', fact:'พื้นยิ่งขรุขระ แรงเสียดทานยิ่งมาก รถเลยหยุดเร็วกว่า'},
+  {name:'ชายหาดทะเล', surf:'ทราย', mu:1.9, c:0.45, theme:'sand', sky:['#ff9f5a','#ffe2a8'],
+   hint:'ทรายหนืดมาก! ต้องปัดแรงสุด ๆ', fact:'ทรายมีแรงเสียดทานสูง ล้อรถจมลงไปเลยหยุดเร็ว'},
+  {name:'ขั้วโลกน้ำแข็ง', surf:'น้ำแข็ง', mu:0.5, c:0.72, theme:'ice', sky:['#1b2766','#5677c4'],
+   hint:'ลื่นปรี๊ด! ปัดเบา ๆ ก็พอ ระวังไถลตกน้ำ!', fact:'น้ำแข็งลื่น แรงเสียดทานน้อยมาก รถเลยไถลไปได้ไกล'},
 ];
 const CARS = [
-  {name:'รถเข็น',   m:0.7, size:0.8, body:'#ff8a3d', top:'#ffd23f'},
-  {name:'รถเก๋ง',   m:1.0, size:1.0, body:'#ff4f6d', top:'#ffd0d8'},
-  {name:'รถบรรทุก', m:1.6, size:1.3, body:'#3f8fff', top:'#bfe3ff'},
+  {name:'โกคาร์ท', m:0.8,  size:0.85, body:'#ff8a3d', dark:'#c9561a', light:'#ffd0a8'},
+  {name:'รถเก๋ง',  m:1.0,  size:1.0,  body:'#ff4f6d', dark:'#c2283f', light:'#ffd0d8'},
+  {name:'รถบรรทุก', m:1.25, size:1.25, body:'#3f8fff', dark:'#1f5fc4', light:'#d6e8ff'},
 ];
-const G = 1.32, ZONE = 0.07, CLIFF = 0.95, SHOTS = 2, READY_LIMIT = 15;
+// ฟิสิกส์ (ปรับให้ปัดมือคนจริงแล้วถึงได้ทุกคัน ทุกพื้น)
+// ปัดเร็ว f (ความกว้างจอต่อวินาที) -> แรง P = f/FMAX -> v0² = P·KV/m -> ระยะ = v0²/(2·μ·G)
+const G = 0.8, KV = 2.14, FMAX = 3.0, ZONES = [0.04, 0.08, 0.13], CLIFF = 0.95, SHOTS = 3, READY_LIMIT = 20;
+const SAY_READY = ['ดันหนูเลย!', 'พร้อมซิ่งแล้ว!', 'ปัดแรง ๆ เลย!', 'บรื้น ๆ!'];
 
 let mode = 'solo', carType = 1, state = 'menu', players = [], countdown = 0, lastT = 0, lastBeep = 4;
 let lv = 0, shot = 0, intro = 0, particles = [], banner = null;
 
 function resize(){
-  W = innerWidth; H = innerHeight;
-  canvas.width = Math.ceil(W/PX); canvas.height = Math.ceil(H/PX);
-  ucanvas.width = Math.ceil(W/PXU); ucanvas.height = Math.ceil(H/PXU);
-  ctx.setTransform(1/PX,0,0,1/PX,0,0); U.setTransform(1/PXU,0,0,1/PXU,0,0);
-  ctx.imageSmoothingEnabled = false; U.imageSmoothingEnabled = false;
+  DPR = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight;
+  canvas.width = W*DPR; canvas.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
   players.forEach(layoutPlayer);
 }
 addEventListener('resize', resize);
@@ -104,28 +97,38 @@ addEventListener('resize', resize);
 // ---------- เสียง ----------
 let actx = null;
 function audio(){ if (!actx) try { actx = new (window.AudioContext||window.webkitAudioContext)(); } catch {} return actx; }
-function tone(f, d=0.15, type='square', vol=0.1, delay=0, f2=null){
+function tone(f, d=0.15, type='triangle', vol=0.1, delay=0, f2=null){
   const a = audio(); if (!a) return;
   const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain();
   o.type = type; o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t+d);
   g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + d);
   o.connect(g).connect(a.destination); o.start(t); o.stop(t + d + 0.05);
 }
+function noise(d=0.4, vol=0.15, freq=900, delay=0){
+  const a = audio(); if (!a) return;
+  const buf = a.createBuffer(1, a.sampleRate*d, a.sampleRate), ch = buf.getChannelData(0);
+  for (let i=0;i<ch.length;i++) ch[i] = (Math.random()*2-1)*(1-i/ch.length);
+  const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime + delay;
+  s.buffer = buf; f.type = 'lowpass'; f.frequency.value = freq; g.gain.value = vol;
+  s.connect(f).connect(g).connect(a.destination); s.start(t);
+}
 const sfx = {
-  push:  ()=>{ tone(120,0.25,'sawtooth',0.12,0,60); tone(300,0.15,'square',0.08,0,900); },
-  star:  n => { for (let i=0;i<n;i++) tone(880+i*220,0.15,'square',0.09,0.15+i*0.18); },
-  perfect:()=> [523,659,784,1046,1318,1568].forEach((f,i)=>tone(f,0.18,'square',0.09,i*0.08)),
-  miss:  ()=> tone(300, 0.4, 'triangle', 0.1, 0, 150),
-  fall:  ()=>{ tone(900, 0.8, 'square', 0.08, 0, 80); tone(60, 0.3, 'sawtooth', 0.15, 0.8); },
-  beep:  ()=> tone(520, 0.15, 'square', 0.1),
-  go:    ()=> tone(880, 0.35, 'square', 0.12),
-  win:   ()=> [523,659,784,1046,1318].forEach((f,i)=>tone(f,0.25,'square',0.1,i*0.12)),
+  push:  ()=>{ noise(0.35, 0.2, 1800); tone(180,0.3,'sawtooth',0.07,0,520); },
+  honk:  ()=>{ tone(440,0.12,'square',0.06); tone(350,0.16,'square',0.06,0.14); },
+  star:  n => { for (let i=0;i<n;i++) tone(880+i*220,0.18,'sine',0.12,0.1+i*0.16); },
+  perfect:()=> [523,659,784,1046,1318,1568].forEach((f,i)=>tone(f,0.2,'triangle',0.12,i*0.08)),
+  miss:  ()=> tone(330, 0.45, 'triangle', 0.1, 0, 160),
+  fall:  ()=> tone(900, 0.7, 'sine', 0.1, 0, 120),
+  splash:()=>{ noise(0.6, 0.3, 700); tone(200,0.3,'sine',0.08,0,60); },
+  beep:  ()=> tone(520, 0.15, 'sine', 0.12),
+  go:    ()=> tone(880, 0.35, 'triangle', 0.14),
+  win:   ()=> [523,659,784,1046,1318].forEach((f,i)=>tone(f,0.28,'triangle',0.12,i*0.12)),
 };
 
 // ---------- เมนู ----------
 window.setCar = i => { carType = i; [0,1,2].forEach(k => document.getElementById('car'+k).classList.toggle('on', k===i)); };
 window.showStart = ()=>{
-  state = 'menu'; players = [];
+  state = 'menu'; players = []; particles = [];
   document.getElementById('end').classList.add('hidden');
   document.getElementById('start').classList.remove('hidden');
 };
@@ -144,75 +147,116 @@ addEventListener('keydown', e=>{
 
 // ---------- ผู้เล่น ----------
 function makePlayer(idx, f0, f1){
-  return {idx, f0, f1, s:0, v:0, v0:0, phase:'wait', stars:Array(LEVELS.length).fill(0), last:0, msg:null, readyT:0,
-          fallY:0, fallVY:0, rot:0, engT:0, hand:{x:-999,y:-999,seen:false}, hist:[], pts:null, lost:0};
+  return {idx, f0, f1, s:0, v:0, v0:0, power:0, phase:'wait', stars:Array(LEVELS.length).fill(0), last:0, msg:null, readyT:0,
+          fallY:0, fallVY:0, rot:0, splashT:-1, engT:0, squash:0, mood:'idle', bubble:null, ghost:null,
+          hand:{x:-999,y:-999,seen:false,pts:null,hr:60,vx:0}, hist:[], trail:[], stroke:null};
 }
 function layoutPlayer(p){
-  p.x0 = p.f0*W; p.x1 = p.f1*W; const w = p.x1-p.x0;
-  p.startX = p.x0 + w*0.15; p.L = w*0.8; p.groundY = H*0.68;
-  p.cw = Math.min(w*0.09, 150) * CARS[carType].size; p.ch = p.cw*0.55;
+  p.x0 = p.f0*W; p.x1 = p.f1*W; p.pw = p.x1 - p.x0;
+  p.startX = p.x0 + p.pw*0.1; p.L = p.pw*0.72; p.groundY = H*0.74;
+  p.edgeX = p.startX + CLIFF*p.L; p.waterY = H*0.93;
+  p.cw = Math.min(p.pw*0.13, H*0.24, 200) * CARS[carType].size; p.ch = p.cw*0.62;
 }
 const carX = p => p.startX + p.s*p.L;
-function resetShot(p){ p.s = 0; p.v = 0; p.v0 = 0; p.fallY = 0; p.fallVY = 0; p.rot = 0; p.phase = 'ready'; p.readyT = 0; p.msg = null; }
-function beginLevel(){ intro = 2.8; players.forEach(p => { resetShot(p); p.phase = 'wait'; }); banner = null; }
-function handSpeed(p){ // ความเร็วมือแนวนอน (px/วินาที) จาก 0.12 วินาทีล่าสุด
-  const h = p.hist; if (h.length < 2) return 0;
-  const b = h[h.length-1]; let best = 0;
-  for (let i = h.length-2; i >= 0; i--){ const dt = (b.t - h[i].t)/1000; if (dt >= 0.03) best = Math.max(best, (b.x - h[i].x)/dt); if (dt > 0.08) break; }
-  return best;
+const say = (p, text, t=1.6) => p.bubble = {text, t};
+function resetShot(p){
+  Object.assign(p, {s:0, v:0, v0:0, fallY:0, fallVY:0, rot:0, splashT:-1, phase:'ready', readyT:0, msg:null, stroke:null, mood:'idle'});
+  say(p, SAY_READY[Math.floor(Math.random()*SAY_READY.length)], 2);
+}
+function beginLevel(){ intro = 3.2; players.forEach(p => { resetShot(p); p.phase = 'wait'; p.ghost = null; p.power = 0; p.bubble = null; }); banner = null; }
+
+// การปัด: ทั้งจอ (ฝั่งตัวเอง) ไม่ต้องโดนรถ
+function updateSwipe(p, now){
+  const h = p.hand;
+  if (!h.seen){ if (p.stroke) endStroke(p); p.hist = []; p.trail = []; h.vx = 0; return; }
+  p.hist.push({t: now, x: h.x}); while (p.hist.length > 2 && now - p.hist[0].t > 110) p.hist.shift();
+  p.trail.push({x:h.x, y:h.y}); if (p.trail.length > 10) p.trail.shift();
+  const a = p.hist[0], b = p.hist[p.hist.length-1], dt = (b.t - a.t)/1000;
+  const vx = dt > 0.03 ? (b.x - a.x)/dt/p.pw : 0; // หน่วย: ความกว้างจอ/วินาที
+  h.vx = vx;
+  if (!p.stroke){ if (vx > 0.3) p.stroke = {x0: a.x, x: b.x, peak: vx, t0: a.t}; }
+  else {
+    p.stroke.peak = Math.max(p.stroke.peak, vx); p.stroke.x = Math.max(p.stroke.x, b.x);
+    if (vx < 0.12 || now - p.stroke.t0 > 900) endStroke(p);
+  }
+}
+function endStroke(p){
+  const st = p.stroke; p.stroke = null;
+  if (!st || p.phase !== 'ready' || p.readyT < 0.4) return;
+  if ((st.x - st.x0)/p.pw < 0.12 || st.peak < 0.4) return; // ขยับนิดเดียว ไม่นับ
+  push(p, st.peak);
+}
+function push(p, f){
+  const car = CARS[carType];
+  p.power = Math.max(0.05, Math.min(1, f/FMAX));
+  p.v0 = Math.sqrt(p.power*KV/car.m); p.v = p.v0; p.phase = 'moving'; p.squash = 1; p.mood = 'go';
+  sfx.push(); setTimeout(sfx.honk, 120);
+  say(p, p.power > 0.75 ? 'วู้ววววว!' : p.power > 0.4 ? 'ไปแล้วว!' : 'ฟิ้ว~', 1.2);
+  dust(p, carX(p) - p.cw*0.5, 16);
 }
 function updatePlayer(p, dt, now){
-  const L = LEVELS[lv], car = CARS[carType];
-  // เก็บประวัติตำแหน่งมือ
-  if (p.hand.seen){ p.hist.push({t: now, x: p.hand.x}); while (p.hist.length && now - p.hist[0].t > 120) p.hist.shift(); } else p.hist = [];
+  const L = LEVELS[lv];
+  updateSwipe(p, now);
+  if (p.bubble){ p.bubble.t -= dt; if (p.bubble.t <= 0) p.bubble = null; }
+  p.squash = Math.max(0, p.squash - dt*3);
   if (p.phase === 'ready'){
     p.readyT += dt;
-    const cx = carX(p), vx = handSpeed(p), h = p.hand;
-    if (h.seen && h.x > cx - p.cw*0.3 && h.x < cx + p.cw*0.9 && Math.abs(h.y - (p.groundY - p.ch*0.5)) < H*0.35 && vx > W*0.3){
-      p.v0 = Math.min(3.2, (vx / W) * 0.9 / car.m); p.v = p.v0; p.phase = 'moving'; sfx.push();
-      dust(p, cx - p.cw*0.5, 14);
-    } else if (p.readyT > READY_LIMIT){ finishShot(p, 0, 'หมดเวลา! ลองปัดมือผ่านตัวรถนะ', false); }
+    if (p.readyT > READY_LIMIT) finishShot(p, 0, 'หมดเวลา! แบมือปัดไปทางขวาแรง ๆ นะ', false);
   } else if (p.phase === 'moving'){
     p.s += p.v*dt; p.v = Math.max(0, p.v - L.mu*G*dt);
-    p.engT += dt; if (p.engT > 0.07 && p.v > 0.03){ p.engT = 0; tone(60 + p.v*140, 0.06, 'square', 0.04); }
-    if (Math.random() < p.v*dt*(L.deco==='sand'?30:L.deco==='ice'?4:14)) dust(p, carX(p) - p.cw*0.5, 2);
-    if (p.s > CLIFF){ p.phase = 'falling'; p.fallVY = 0; sfx.fall(); }
+    p.mood = p.s > L.c + ZONES[2] || p.s > 0.85 ? 'scared' : 'go';
+    if (p.mood === 'scared' && (!p.bubble || p.bubble.text !== 'เบรกไม่อยู่!')) say(p, 'เบรกไม่อยู่!', 1.2);
+    p.engT += dt; if (p.engT > 0.08 && p.v > 0.03){ p.engT = 0; tone(55 + p.v*120, 0.07, 'sawtooth', 0.025); }
+    const rate = L.theme==='sand' ? 40 : L.theme==='ice' ? 10 : 18;
+    if (Math.random() < p.v*dt*rate) dust(p, carX(p) - p.cw*0.45, 2);
+    if (p.s > CLIFF){ p.phase = 'falling'; p.fallVY = -H*0.15; p.mood = 'scared'; say(p, 'ว้ายยยย!', 2); sfx.fall(); }
     else if (p.v <= 0) scoreShot(p);
   } else if (p.phase === 'falling'){
-    p.s += p.v*dt*0.6; p.fallVY += 2400*dt; p.fallY += p.fallVY*dt; p.rot += dt*4;
-    if (p.fallY > H) finishShot(p, 0, 'แรงเกินไป! ตกหน้าผาไปแล้ว', false);
+    p.s = Math.min(p.s + p.v*dt*0.7, (p.x1 - p.cw*0.6 - p.startX)/p.L); p.fallVY += H*2.4*dt; p.fallY += p.fallVY*dt; p.rot += dt*3;
+    if (p.splashT < 0 && p.groundY + p.fallY - p.ch*0.3 > p.waterY){ p.splashT = 0; splash(carX(p), p.waterY); sfx.splash(); }
+    if (p.splashT >= 0){ p.splashT += dt; p.fallVY = Math.min(p.fallVY, H*0.25); if (p.splashT > 1.1){ p.mood = 'dizzy'; finishShot(p, 0, 'แรงเกินไป! ตกน้ำตูมเลย', false); } }
   } else if (p.phase === 'result'){
     p.resT -= dt; if (p.resT <= 0) p.phase = 'done';
   }
 }
 function scoreShot(p){
   const c = LEVELS[lv].c, d = Math.abs(p.s - c);
-  if (d <= ZONE){
-    const e = d/ZONE, n = e < 0.25 ? 3 : e < 0.6 ? 2 : 1;
-    finishShot(p, n, n === 3 ? 'PERFECT! จอดตรงธงเป๊ะ' : n === 2 ? 'เยี่ยม! เกือบตรงธงแล้ว' : 'เข้าเขตแล้ว! อีกนิดเดียว', true);
-  } else if (p.s < c) finishShot(p, 0, 'ยังไม่ถึง! ต้องใช้แรงมากกว่านี้', false);
-  else finishShot(p, 0, 'เลยไปนิด! ใช้แรงน้อยลงหน่อย', false);
+  p.ghost = p.s;
+  const n = d <= ZONES[0] ? 3 : d <= ZONES[1] ? 2 : d <= ZONES[2] ? 1 : 0;
+  if (n) finishShot(p, n, n === 3 ? 'PERFECT! จอดตรงธงเป๊ะ' : n === 2 ? 'เยี่ยม! เกือบตรงธงแล้ว' : 'เข้าเขตแล้ว! อีกนิดเดียว', true);
+  else if (p.s < c) finishShot(p, 0, 'ยังไม่ถึง! ปัดให้เร็วขึ้นอีกหน่อย', false);
+  else finishShot(p, 0, 'เลยไปนิด! ปัดเบาลงหน่อย', false);
 }
 function finishShot(p, n, text, ok){
-  p.last = n; p.stars[lv] = Math.max(p.stars[lv], n); p.phase = 'result'; p.resT = 2.6;
-  p.msg = {ok, title: text, t: 2.6, n};
-  if (n === 3){ sfx.perfect(); confettiBurst(carX(p), p.groundY - p.ch); } else if (n > 0) sfx.star(n); else if (p.fallY === 0) sfx.miss();
+  if (p.phase === 'result') return;
+  p.mood = n > 0 ? 'happy' : p.splashT >= 0 ? 'dizzy' : 'sad';
+  if (n > 0){ say(p, n === 3 ? 'เย้! เก่งมาก!' : 'เย้!', 2); p.squash = 1; }
+  else if (p.mood !== 'dizzy') say(p, p.s < LEVELS[lv].c ? 'ไปไม่ถึงอ่ะ~' : 'เลยไปแล้ว~', 2);
+  else say(p, 'บุ๋ง ๆ ๆ', 2);
+  p.last = n; p.stars[lv] = Math.max(p.stars[lv], n); p.phase = 'result'; p.resT = 2.8;
+  p.msg = {ok, title: text, t: 2.8, n};
+  if (n === 3){ sfx.perfect(); fireworks(carX(p), p.groundY - p.ch*2.5); } else if (n > 0) sfx.star(n); else if (p.splashT < 0) sfx.miss();
 }
+// ---------- อนุภาค ----------
 function dust(p, x, n){
-  const deco = LEVELS[lv].deco, col = deco==='sand' ? ['#f2d27a','#c9a24f'] : deco==='ice' ? ['#ffffff','#c9f3ff'] : deco==='grass' ? ['#8bd46a','#5a3b1e'] : ['#cfcfd8','#8a8a96'];
-  for (let i=0;i<n;i++) particles.push({x, y:p.groundY-6, vx:-60-Math.random()*200, vy:-60-Math.random()*160, c:col[i%2], life:0.7, g:500});
+  const th = LEVELS[lv].theme, col = th==='sand' ? ['#f6dc93','#e2bd6a'] : th==='ice' ? ['#ffffff','#cdf3ff'] : th==='grass' ? ['#9ee07a','#d8f5c4'] : ['#e3e3ea','#bfc0cc'];
+  for (let i=0;i<n;i++) particles.push({x, y:p.groundY-6, vx:-40-Math.random()*180, vy:-40-Math.random()*140, c:col[i%2], life:0.8, g:300, r:5+Math.random()*9, puff:true});
 }
-function confettiBurst(x, y){
-  const cols = ['#ff5fa2','#3fb6ff','#ffcf33','#7be39a','#ffffff'];
-  for (let i=0;i<60;i++){ const a=Math.random()*Math.PI*2, v=200+Math.random()*400; particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-300,c:cols[i%5],life:1.4,g:700}); }
+function splash(x, y){
+  for (let i=0;i<46;i++){ const a = -Math.PI/2 + (Math.random()-0.5)*1.6, v = 250+Math.random()*520; particles.push({x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v, c: i%3 ? '#8fd8ff' : '#ffffff', life:1.2, g:1400, r:4+Math.random()*6}); }
+}
+function fireworks(x, y){
+  const cols = ['#ff5fa2','#3fb6ff','#ffd23f','#7be39a','#ffffff','#b48cff'];
+  for (let k=0;k<3;k++){ const fx = x + (k-1)*W*0.12, fy = y - k%2*H*0.08;
+    for (let i=0;i<34;i++){ const a = i/34*Math.PI*2, v = 220+Math.random()*120; particles.push({x:fx, y:fy, vx:Math.cos(a)*v, vy:Math.sin(a)*v, c:cols[(i+k)%6], life:1.3, g:180, r:4, spark:true}); } }
 }
 function confetti(x0, x1){
-  const cols = ['#ff5fa2','#3fb6ff','#ffcf33','#7be39a','#ffffff','#b48cff'];
-  for (let i=0;i<220;i++) particles.push({x:x0+Math.random()*(x1-x0), y:-20-Math.random()*H*0.5, vx:(Math.random()-0.5)*120, vy:100+Math.random()*200, c:cols[i%6], life:3.5, slow:true});
+  const cols = ['#ff5fa2','#3fb6ff','#ffd23f','#7be39a','#ffffff','#b48cff'];
+  for (let i=0;i<200;i++) particles.push({x:x0+Math.random()*(x1-x0), y:-20-Math.random()*H*0.5, vx:(Math.random()-0.5)*120, vy:100+Math.random()*200, c:cols[i%6], life:3.5, slow:true, r:6, rot:Math.random()*6});
 }
 function advance(){
   if (state !== 'play' || !players.every(p => p.phase === 'done' || p.phase === 'wait')) return;
-  const solo3 = mode === 'solo' && players[0].stars[lv] === 3; // ได้ 3 ดาวแล้วข้ามไปด่านต่อไปเลย
+  const solo3 = mode === 'solo' && players[0].stars[lv] === 3;
   if (shot + 1 < SHOTS && !solo3){ shot++; players.forEach(resetShot); return; }
   shot = 0;
   if (lv + 1 >= LEVELS.length){ players.forEach(p => p.phase = 'end'); endGame(); return; }
@@ -224,23 +268,24 @@ function advance(){
 function endGame(){
   state = 'over'; sfx.win();
   const total = p => p.stars.reduce((a,b)=>a+b,0), max = LEVELS.length*3;
-  const facts = '<br><span style="font-size:.85em">จำไว้นะ: ยิ่งออกแรงมาก ของยิ่งเคลื่อนที่ไกล · พื้นยิ่งขรุขระ แรงเสียดทานยิ่งมาก · ของยิ่งหนัก ยิ่งต้องใช้แรงมาก</span>';
-  const row = p => LEVELS.map((L,i)=>`${L.name} ${'★'.repeat(p.stars[i])}${'☆'.repeat(3-p.stars[i])}`).join(' · ');
+  const facts = '<br><span style="font-size:.85em;color:#5a7499">จำไว้นะ: ยิ่งออกแรงมาก ของยิ่งเคลื่อนที่ไกล · พื้นยิ่งขรุขระ แรงเสียดทานยิ่งมาก · ของยิ่งหนัก ยิ่งต้องใช้แรงมาก</span>';
+  const row = p => LEVELS.map((L,i)=>`${L.surf} <span style="color:#f5a300">${'★'.repeat(p.stars[i])}</span>${'☆'.repeat(3-p.stars[i])}`).join(' · ');
+  const T = document.getElementById('endTitle');
   if (mode === 'solo'){
     const p = players[0], t = total(p); confetti(0, W);
     const title = t >= 11 ? 'นักซิ่งระดับตำนาน!' : t >= 8 ? 'นักซิ่งมือโปร!' : t >= 4 ? 'นักซิ่งฝีมือดี!' : 'นักซิ่งฝึกหัด!';
     setTimeout(()=>{
-      pixelTitle(document.getElementById('endTitle'), title);
+      T.textContent = title; T.style.color = '#ff4f6d';
       document.getElementById('endText').innerHTML = `ได้ <b>${t}</b> จาก ${max} ดาว (${CARS[carType].name})<br>${row(p)}${facts}`;
       document.getElementById('end').classList.remove('hidden');
-    }, 1200);
+    }, 1400);
     return;
   }
   const [a, b] = players, ta = total(a), tb = total(b);
   const w = ta > tb ? a : tb > ta ? b : null;
   if (w){ confetti(w.x0, w.x1); banner = {p: w}; } else confetti(0, W);
   setTimeout(()=>{
-    pixelTitle(document.getElementById('endTitle'), w ? `${P_NAMES[w.idx]}ชนะ!` : 'เสมอกัน! เก่งทั้งคู่', w ? P_COLORS[w.idx] : '#ffcf33');
+    T.textContent = w ? `${P_NAMES[w.idx]}ชนะ!` : 'เสมอกัน! เก่งทั้งคู่'; T.style.color = w ? P_COLORS[w.idx] : '#ff4f6d';
     const line = p => `<b style="color:${P_COLORS[p.idx]}">${P_NAMES[p.idx]}</b> ${total(p)} ดาว<br><span style="font-size:.8em">${row(p)}</span>`;
     document.getElementById('endText').innerHTML = `${line(a)}<br>${line(b)}${facts}`;
     document.getElementById('end').classList.remove('hidden');
@@ -253,7 +298,7 @@ addEventListener('mousemove', e=>{
   if (handOK || !players.length) return;
   const p = players.find(p => e.clientX >= p.x0 && e.clientX < p.x1) || players[0];
   players.forEach(q => { if (q !== p) q.hand.seen = false; });
-  p.hand.x = e.clientX; p.hand.y = e.clientY; p.hand.seen = true;
+  p.hand.x = e.clientX; p.hand.y = e.clientY; p.hand.seen = true; p.hand.hr = Math.min(W,H)*0.031;
 });
 async function initHands(){
   try{
@@ -269,7 +314,7 @@ async function initHands(){
     statusEl.textContent = 'พร้อมเล่น! ยืนห่างกล้องประมาณ 1–1.5 เมตร แล้วยกมือขึ้น';
   }catch(err){
     console.error(err);
-    statusEl.textContent = 'เปิดกล้องหรือตัวจับมือไม่ได้ ตอนนี้เล่นด้วยเมาส์ได้ · ตรวจว่าอนุญาตกล้องและต่ออินเทอร์เน็ต';
+    statusEl.textContent = 'เปิดกล้องหรือตัวจับมือไม่ได้ ตอนนี้เล่นด้วยเมาส์ได้ (ลากเมาส์ไปทางขวาเร็ว ๆ) · ตรวจว่าอนุญาตกล้องและต่ออินเทอร์เน็ต';
   }
 }
 const mapPt = p => ({x:(1-(0.5+(p.x-0.5)*1.4))*W, y:(0.5+(p.y-0.5)*1.4)*H});
@@ -277,188 +322,417 @@ function trackHands(){
   if (!handOK || video.readyState < 2 || video.currentTime === lastVideoTime) return;
   lastVideoTime = video.currentTime;
   const r = landmarker.detectForVideo(video, performance.now());
-  const found = (r.landmarks || []).map(L => ({pts: L.map(mapPt), c: mapPt({x:(L[0].x+L[9].x)/2, y:(L[0].y+L[9].y)/2})}));
+  const found = (r.landmarks || []).map(L => {
+    const pts = L.map(mapPt), c = [0,5,9,13,17].reduce((a,i)=>({x:a.x+pts[i].x/5, y:a.y+pts[i].y/5}), {x:0,y:0});
+    return {pts, c, palm: Math.hypot(pts[0].x-pts[9].x, pts[0].y-pts[9].y)};
+  });
   const assigned = players.map(()=>null);
   if (mode === 'solo'){ if (found[0]) assigned[0] = found[0]; }
   else for (const f of found){ const side = f.c.x < W/2 ? 0 : 1; if (!assigned[side]) assigned[side] = f; }
   players.forEach((p,i)=>{
-    const f = assigned[i];
-    if (!f){ p.hand.seen = false; p.pts = null; return; }
-    p.pts = f.pts;
-    p.hand.x = p.hand.seen ? p.hand.x + (f.c.x-p.hand.x)*0.7 : f.c.x;
-    p.hand.y = p.hand.seen ? p.hand.y + (f.c.y-p.hand.y)*0.7 : f.c.y;
-    p.hand.seen = true;
+    const f = assigned[i], h = p.hand;
+    if (!f){ h.seen = false; h.pts = null; return; }
+    h.pts = f.pts;
+    h.x = h.seen ? h.x + (f.c.x-h.x)*0.75 : f.c.x;
+    h.y = h.seen ? h.y + (f.c.y-h.y)*0.75 : f.c.y;
+    h.hr = Math.max(Math.min(W,H)*0.031, f.palm*0.38);
+    h.seen = true;
   });
 }
 
-// ---------- วาด ----------
-function sticker(x,y,w,h,fill,sh=6){
-  const ctx = U;
-  ctx.fillStyle='#000'; ctx.fillRect(x-4+sh,y-4+sh,w+8,h+8);
-  ctx.fillStyle='#000'; ctx.fillRect(x-8,y-8,w+16,h+16);
-  ctx.fillStyle='#fff'; ctx.fillRect(x-4,y-4,w+8,h+8);
-  ctx.fillStyle=fill; ctx.fillRect(x,y,w,h);
-}
-function label(t, x, y, size, fill='#fff'){
-  const ctx = U;
-  ctx.font = `800 ${size}px ${/^[0-9A-Za-z!?\sx/.]+$/.test(t) ? '"Press Start 2P",' : ''}${THAI}`;
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'miter';
-  ctx.lineWidth = Math.max(6, size*0.28); ctx.strokeStyle = INK; ctx.strokeText(t, x, y);
+// ---------- ตัวช่วยวาด ----------
+function rr(x, y, w, h, r){ r = Math.min(r, w/2, h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function label(t, x, y, size, fill='#fff', font=FUN, stroke='#17325c'){
+  ctx.font = `700 ${size}px ${font}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+  ctx.lineWidth = Math.max(5, size*0.2); ctx.strokeStyle = stroke; ctx.strokeText(t, x, y);
   ctx.fillStyle = fill; ctx.fillText(t, x, y);
 }
-function pixStar(x, y, s, on){ // ดาวพิกเซล 5x5
-  const ctx = U, m = ['..#..','.###.','#####','.###.','#.#.#'], c = s/5;
-  ctx.fillStyle = '#000'; ctx.fillRect(x-s/2-3, y-s/2-3, s+6, s+6);
-  ctx.fillStyle = on ? '#3a2f7a' : '#3a2f7a'; ctx.fillRect(x-s/2, y-s/2, s, s);
-  ctx.fillStyle = on ? '#ffcf33' : '#6a5fae';
-  m.forEach((row,j)=>[...row].forEach((ch,i)=>{ if (ch==='#') ctx.fillRect(x-s/2+i*c, y-s/2+j*c, c, c); }));
+function starPath(x, y, r){
+  ctx.beginPath();
+  for (let i=0;i<10;i++){ const a = -Math.PI/2 + i*Math.PI/5, rr2 = i%2 ? r*0.45 : r; ctx.lineTo(x+Math.cos(a)*rr2, y+Math.sin(a)*rr2); }
+  ctx.closePath();
 }
-function drawBG(t){
+function star(x, y, r, on){
+  starPath(x, y, r); ctx.fillStyle = on ? '#ffd23f' : 'rgba(255,255,255,.35)'; ctx.fill();
+  ctx.lineWidth = Math.max(2, r*0.16); ctx.lineJoin = 'round'; ctx.strokeStyle = on ? '#c98f00' : 'rgba(23,50,92,.5)'; ctx.stroke();
+}
+function cloud(x, y, s, a=0.95){
+  ctx.fillStyle = `rgba(255,255,255,${a})`; ctx.beginPath();
+  ctx.arc(x, y, s*0.5, 0, Math.PI*2); ctx.arc(x+s*0.45, y-s*0.2, s*0.45, 0, Math.PI*2); ctx.arc(x+s*0.9, y, s*0.4, 0, Math.PI*2); ctx.arc(x+s*0.45, y+s*0.1, s*0.45, 0, Math.PI*2); ctx.fill();
+}
+function hills(y0, amp, freq, phase, col){
+  ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(0, H);
+  for (let x=0; x<=W+20; x+=20) ctx.lineTo(x, y0 - amp*(0.5+0.5*Math.sin(x*freq/W*Math.PI*2 + phase)));
+  ctx.lineTo(W, H); ctx.closePath(); ctx.fill();
+}
+const hillY = (x, y0, amp, freq, phase) => y0 - amp*(0.5+0.5*Math.sin(x*freq/W*Math.PI*2 + phase));
+
+// ---------- ฉาก ----------
+function drawSky(t){
+  const L = LEVELS[lv] || LEVELS[0], playing = state !== 'menu';
+  const [c1, c2] = playing ? L.sky : ['#5bb8ff','#c9ecff'];
   if (handOK && video.videoWidth){
     const vw=video.videoWidth, vh=video.videoHeight, s=Math.max(W/vw,H/vh);
     ctx.save(); ctx.translate(W,0); ctx.scale(-1,1);
     ctx.drawImage(video,(W-vw*s)/2,(H-vh*s)/2,vw*s,vh*s); ctx.restore();
+    const g = ctx.createLinearGradient(0,0,0,H*0.62); g.addColorStop(0, c1+'99'); g.addColorStop(1, c2+'33');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
   } else {
-    ctx.fillStyle='#4fc3f7'; ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='#fff'; for (let i=0;i<6;i++){ const cx=((i*260 + t*0.02*(1+i%3)) % (W+200))-100, cy=40+((i*97)%5)*30; ctx.fillRect(cx,cy,80,24); ctx.fillRect(cx+16,cy-16,48,16); }
+    const g = ctx.createLinearGradient(0,0,0,H*0.62); g.addColorStop(0, c1); g.addColorStop(1, c2);
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  }
+  if (!playing) return;
+  const th = L.theme, u = Math.min(W,H);
+  if (th === 'ice'){
+    // แสงเหนือ + พระจันทร์
+    for (let k=0;k<3;k++){
+      ctx.strokeStyle = k===1 ? 'rgba(190,120,255,.28)' : 'rgba(110,255,190,.3)'; ctx.lineWidth = u*0.05; ctx.lineCap = 'round';
+      ctx.beginPath(); for (let x=-20; x<=W+20; x+=30) ctx.lineTo(x, H*(0.12+k*0.05) + Math.sin(x/W*6 + t/1400 + k)*H*0.04); ctx.stroke();
+    }
+    ctx.fillStyle = '#fff8d8'; ctx.beginPath(); ctx.arc(W*0.86, H*0.14, u*0.05, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = c1+'cc'; ctx.beginPath(); ctx.arc(W*0.86+u*0.022, H*0.14-u*0.012, u*0.045, 0, Math.PI*2); ctx.fill();
+  } else {
+    const sx = W*0.86, sy = H*(th==='sand' ? 0.3 : 0.14), sr = u*(th==='sand' ? 0.09 : 0.06);
+    const g = ctx.createRadialGradient(sx,sy,sr*0.5,sx,sy,sr*2.4); g.addColorStop(0,'rgba(255,240,150,.7)'); g.addColorStop(1,'rgba(255,240,150,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(sx,sy,sr*2.4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = th==='sand' ? '#ffcc4d' : '#ffe066'; ctx.beginPath(); ctx.arc(sx,sy,sr,0,Math.PI*2); ctx.fill();
+    for (let i=0;i<4;i++){ const cx = ((i*W*0.31 + t*0.012*(1+i%2)) % (W+u*0.4)) - u*0.2; cloud(cx, H*(0.08+(i%3)*0.07), u*(0.09+(i%2)*0.04), 0.85); }
   }
 }
-function drawTrack(p, t){
-  const L = LEVELS[lv], gy = p.groundY, x0 = p.x0, cliffX = p.startX + CLIFF*p.L + p.cw*0.5;
-  // พื้น
-  ctx.fillStyle = INK; ctx.fillRect(x0, gy-8, cliffX-x0+8, H-gy+8);
-  ctx.fillStyle = L.top; ctx.fillRect(x0, gy, cliffX-x0, 28);
-  ctx.fillStyle = L.mid; ctx.fillRect(x0, gy+28, cliffX-x0, H*0.12);
-  ctx.fillStyle = '#5a3b1e'; ctx.fillRect(x0, gy+28+H*0.12, cliffX-x0, H);
-  ctx.fillStyle = '#3e2914'; for (let x=x0+20; x<cliffX-20; x+=64) ctx.fillRect(x, gy+40+H*0.12, 16, 12);
-  // ลวดลายพื้นผิว
-  if (L.deco==='road'){ ctx.fillStyle='#ffcf33'; for (let x=x0+16; x<cliffX-40; x+=72) ctx.fillRect(x, gy+12, 36, 6); }
-  if (L.deco==='grass'){ ctx.fillStyle='#2e7d32'; for (let x=x0+8; x<cliffX-8; x+=24) ctx.fillRect(x, gy-8, 6, 10); ctx.fillStyle='#ffef6b'; for (let x=x0+40; x<cliffX-20; x+=150) ctx.fillRect(x, gy-14, 8, 8); }
-  if (L.deco==='sand'){ ctx.fillStyle='#c9a24f'; for (let x=x0+10; x<cliffX-8; x+=28) ctx.fillRect(x, gy+((x*7)%20), 6, 6); }
-  if (L.deco==='ice'){ ctx.fillStyle='#ffffff'; for (let x=x0+30; x<cliffX-30; x+=110) { ctx.fillRect(x, gy+6, 40, 4); ctx.fillRect(x+48, gy+14, 12, 4); } }
-  // หน้าผา
-  ctx.fillStyle = INK; ctx.fillRect(cliffX, gy-8, 8, H);
-  // เขตเป้าหมาย + ธง
-  const zx0 = p.startX + (L.c-ZONE)*p.L, zx1 = p.startX + (L.c+ZONE)*p.L, fx = p.startX + L.c*p.L;
-  ctx.fillStyle = 'rgba(123,227,154,.55)'; ctx.fillRect(zx0, gy-6, zx1-zx0, 34);
-  ctx.fillStyle = '#ffcf33'; ctx.fillRect(zx0 + (zx1-zx0)*0.375, gy-6, (zx1-zx0)*0.25, 34);
-  ctx.fillStyle = INK; ctx.fillRect(fx-4, gy-H*0.2, 8, H*0.2);
-  const fw = 64, fh = 40, wave = Math.round(Math.sin(t/200)*2)*4;
-  for (let i=0;i<4;i++) for (let j=0;j<3;j++){ ctx.fillStyle = (i+j)%2 ? '#fff' : INK; ctx.fillRect(fx+4+i*fw/4, gy-H*0.2+j*fh/3 + (i%2?wave:0), fw/4, fh/3); }
-  // ลูกศรบอกทิศตอนรอดัน
-  if (p.phase === 'ready'){
-    const cx = carX(p), ay = gy - p.ch - 70, k = (Math.floor(t/150)%4)*12;
-    ctx.fillStyle = '#ffcf33';
-    for (let i=0;i<3;i++){ const ax = cx - p.cw*0.4 + i*36 + k; ctx.fillRect(ax, ay-12, 12, 24); ctx.fillRect(ax+12, ay-6, 8, 12); }
+function drawScenery(t){
+  const th = LEVELS[lv].theme, u = Math.min(W,H), hz = H*0.6;
+  if (th === 'road'){
+    hills(hz, H*0.08, 1.3, 0.5, '#8fd16a'); hills(hz+H*0.05, H*0.06, 2.1, 2, '#6cbf4a');
+    // กังหันลม
+    const mx = W*0.78, my = hillY(mx, hz, H*0.08, 1.3, 0.5) + 4, mh = u*0.2;
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(mx-mh*0.08, my); ctx.lineTo(mx-mh*0.03, my-mh); ctx.lineTo(mx+mh*0.03, my-mh); ctx.lineTo(mx+mh*0.08, my); ctx.fill();
+    ctx.save(); ctx.translate(mx, my-mh); ctx.rotate(t/700);
+    ctx.fillStyle = '#ffffff'; for (let k=0;k<3;k++){ ctx.rotate(Math.PI*2/3); rr(-mh*0.04, 0, mh*0.08, mh*0.55, mh*0.04); ctx.fill(); }
+    ctx.restore(); ctx.fillStyle = '#ffd23f'; ctx.beginPath(); ctx.arc(mx, my-mh, mh*0.05, 0, Math.PI*2); ctx.fill();
+    // ต้นไม้
+    for (const fx of [0.1, 0.22, 0.55, 0.92]){ const x = W*fx, y = hillY(x, hz+H*0.05, H*0.06, 2.1, 2)+6, s = u*0.05;
+      ctx.fillStyle = '#8a5a2b'; ctx.fillRect(x-s*0.12, y-s*1.1, s*0.24, s*1.1);
+      ctx.fillStyle = '#3f9e3a'; ctx.beginPath(); ctx.arc(x, y-s*1.3, s*0.6, 0, Math.PI*2); ctx.arc(x-s*0.4, y-s*1.0, s*0.45, 0, Math.PI*2); ctx.arc(x+s*0.4, y-s*1.0, s*0.45, 0, Math.PI*2); ctx.fill(); }
+    // นก
+    ctx.strokeStyle = '#17325c'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+    for (let i=0;i<3;i++){ const bx = ((t*0.06 + i*W*0.37) % (W+100)) - 50, by = H*(0.22+i*0.05) + Math.sin(t/300+i)*8, f = Math.sin(t/120+i)*6;
+      ctx.beginPath(); ctx.moveTo(bx-12, by-f); ctx.quadraticCurveTo(bx-5, by-8, bx, by); ctx.quadraticCurveTo(bx+5, by-8, bx+12, by-f); ctx.stroke(); }
+  } else if (th === 'grass'){
+    hills(hz, H*0.07, 1.0, 1.2, '#a8e07e'); hills(hz+H*0.05, H*0.05, 1.7, 0.3, '#86d05e');
+    const cols = ['#ff7eb6','#ffd23f','#ffffff','#b48cff'];
+    for (let i=0;i<60;i++){ const x = (i*W*0.0173 + (i*i*37)%W) % W, y = hillY(x, hz+H*0.05, H*0.05, 1.7, 0.3) + 8 + (i*13)%(H*0.06);
+      ctx.fillStyle = cols[i%4]; ctx.beginPath(); ctx.arc(x, y, u*0.006, 0, Math.PI*2); ctx.fill(); }
+    // วัว
+    const cx = W*0.2 + Math.sin(t/3000)*W*0.02, cy = hillY(W*0.2, hz, H*0.07, 1.0, 1.2) + u*0.03, s = u*0.05;
+    ctx.fillStyle = '#fff'; rr(cx-s, cy-s*0.6, s*2, s*0.9, s*0.4); ctx.fill();
+    ctx.fillStyle = '#333'; ctx.beginPath(); ctx.arc(cx-s*0.3, cy-s*0.2, s*0.25, 0, Math.PI*2); ctx.arc(cx+s*0.5, cy-s*0.3, s*0.18, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff'; for (const lx of [-0.7, -0.3, 0.4, 0.75]) ctx.fillRect(cx+lx*s, cy+s*0.2, s*0.16, s*0.45);
+    ctx.fillStyle = '#ffb3c6'; rr(cx+s*0.85, cy-s*0.9, s*0.6, s*0.55, s*0.2); ctx.fill();
+    ctx.fillStyle = '#222'; ctx.beginPath(); ctx.arc(cx+s*1.05, cy-s*0.75, s*0.06, 0, Math.PI*2); ctx.fill();
+    // ผีเสื้อ
+    for (let i=0;i<4;i++){ const bx = W*(0.15+i*0.22) + Math.sin(t/900+i*2)*W*0.05, by = H*(0.45+(i%2)*0.06) + Math.cos(t/600+i)*H*0.03, f = Math.abs(Math.sin(t/90+i));
+      ctx.fillStyle = cols[i%4]; ctx.beginPath(); ctx.ellipse(bx-6*f, by, 8*f+1, 6, 0, 0, Math.PI*2); ctx.ellipse(bx+6*f, by, 8*f+1, 6, 0, 0, Math.PI*2); ctx.fill(); }
+  } else if (th === 'sand'){
+    const sg = ctx.createLinearGradient(0, hz-H*0.04, 0, hz+H*0.1); sg.addColorStop(0,'#3fb6d8'); sg.addColorStop(1,'#1f86b8');
+    ctx.fillStyle = sg; ctx.fillRect(0, hz-H*0.04, W, H*0.2);
+    ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 3;
+    for (let k=0;k<3;k++){ ctx.beginPath(); for (let x=0;x<=W;x+=16) ctx.lineTo(x, hz + k*H*0.03 + Math.sin(x/40 + t/400 + k)*3); ctx.stroke(); }
+    hills(hz+H*0.1, H*0.02, 1.4, 0, '#f6dc93');
+    // ต้นมะพร้าว
+    for (const [fx, sc] of [[0.08,1],[0.9,1.15],[0.62,0.8]]){ const x = W*fx, y = hz+H*0.11, s = u*0.12*sc, sway = Math.sin(t/800+fx*9)*0.08;
+      ctx.strokeStyle = '#a0703a'; ctx.lineWidth = s*0.12; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x+s*0.3, y-s*0.6, x+s*0.15, y-s*1.2); ctx.stroke();
+      ctx.save(); ctx.translate(x+s*0.15, y-s*1.2); ctx.rotate(sway); ctx.fillStyle = '#3aa64a';
+      for (let k=0;k<6;k++){ ctx.save(); ctx.rotate(-Math.PI*0.95 + k*Math.PI/5.2); ctx.beginPath(); ctx.ellipse(s*0.32, 0, s*0.36, s*0.09, 0.3, 0, Math.PI*2); ctx.fill(); ctx.restore(); }
+      ctx.fillStyle = '#7a4a1e'; ctx.beginPath(); ctx.arc(-s*0.04, s*0.06, s*0.06, 0, Math.PI*2); ctx.arc(s*0.07, s*0.07, s*0.06, 0, Math.PI*2); ctx.fill(); ctx.restore(); }
+    // ร่มชายหาด
+    const ux = W*0.32, uy = hz+H*0.11, us = u*0.09;
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(ux, uy); ctx.lineTo(ux, uy-us); ctx.stroke();
+    for (let k=0;k<4;k++){ ctx.fillStyle = k%2 ? '#fff' : '#ff4f6d'; ctx.beginPath(); ctx.moveTo(ux, uy-us*1.3); ctx.arc(ux, uy-us*0.9, us*0.8, Math.PI + k*Math.PI/4, Math.PI + (k+1)*Math.PI/4); ctx.closePath(); ctx.fill(); }
+    // นกนางนวล
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 3;
+    for (let i=0;i<3;i++){ const bx = W - (((t*0.05 + i*W*0.4) % (W+100)) - 50), by = H*(0.2+i*0.06) + Math.sin(t/400+i)*10, f = Math.sin(t/140+i)*7;
+      ctx.beginPath(); ctx.moveTo(bx-13, by-f); ctx.quadraticCurveTo(bx-5, by-9, bx, by); ctx.quadraticCurveTo(bx+5, by-9, bx+13, by-f); ctx.stroke(); }
+  } else {
+    // ภูเขาหิมะ
+    for (const [fx, hgt, col] of [[0.15,0.22,'#c7d6f2'],[0.42,0.3,'#dbe6fb'],[0.75,0.24,'#c7d6f2'],[0.98,0.18,'#dbe6fb']]){
+      const x = W*fx, w = W*0.22;
+      ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(x-w, hz+H*0.06); ctx.lineTo(x, hz-H*hgt); ctx.lineTo(x+w, hz+H*0.06); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(x-w*0.3, hz-H*hgt*0.6); ctx.lineTo(x, hz-H*hgt); ctx.lineTo(x+w*0.3, hz-H*hgt*0.6); ctx.lineTo(x+w*0.1, hz-H*hgt*0.66); ctx.lineTo(x-w*0.08, hz-H*hgt*0.58); ctx.fill(); }
+    hills(hz+H*0.07, H*0.03, 1.2, 1, '#eef5ff');
+    // ต้นสน
+    for (const fx of [0.05, 0.18, 0.6, 0.7, 0.95]){ const x = W*fx, y = hz+H*0.08, s = u*0.07;
+      for (let k=0;k<3;k++){ ctx.fillStyle = '#2c6e5a'; ctx.beginPath(); ctx.moveTo(x-s*(0.6-k*0.13), y-k*s*0.45); ctx.lineTo(x, y-s*(0.75+k*0.45)); ctx.lineTo(x+s*(0.6-k*0.13), y-k*s*0.45); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(x-s*0.15, y-s*(0.55+k*0.45)); ctx.lineTo(x, y-s*(0.75+k*0.45)); ctx.lineTo(x+s*0.15, y-s*(0.55+k*0.45)); ctx.fill(); } }
+    // เพนกวิน
+    const px = W*0.33, py = hz+H*0.085, ps = u*0.035, wob = Math.sin(t/250)*0.12;
+    ctx.save(); ctx.translate(px, py); ctx.rotate(wob);
+    ctx.fillStyle = '#1d2433'; ctx.beginPath(); ctx.ellipse(0, -ps, ps*0.7, ps, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.ellipse(0, -ps*0.85, ps*0.45, ps*0.75, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#ffa31a'; ctx.beginPath(); ctx.moveTo(-ps*0.12, -ps*1.45); ctx.lineTo(ps*0.12, -ps*1.45); ctx.lineTo(0, -ps*1.3); ctx.fill();
+    ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(-ps*0.18, -ps*1.6, ps*0.07, 0, Math.PI*2); ctx.arc(ps*0.18, -ps*1.6, ps*0.07, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+    // หิมะตก
+    ctx.fillStyle = 'rgba(255,255,255,.9)';
+    for (let i=0;i<70;i++){ const x = ((i*137.5) % W + Math.sin(t/900+i)*20 + W) % W, y = ((i*91 + t*0.05*(1+i%3)) % (H*0.8));
+      ctx.beginPath(); ctx.arc(x, y, 2+i%3, 0, Math.PI*2); ctx.fill(); }
   }
+  // แถบพื้นไกล ๆ ถึงขอบสนาม
+  const gy = players[0].groundY, near = {road:'#5aaa3c', grass:'#71c24c', sand:'#f0d083', ice:'#e3eefc'}[th];
+  ctx.fillStyle = near; ctx.fillRect(0, hz+H*0.08, W, gy - hz - H*0.08);
+}
+const SURF = {
+  road: {top:'#5d6070', side:'#3f4150', soil:'#8a5a2b', soil2:'#6e4520'},
+  grass:{top:'#4fae3a', side:'#3a8c2b', soil:'#8a5a2b', soil2:'#6e4520'},
+  sand: {top:'#f2d27a', side:'#ddb258', soil:'#d9ad5b', soil2:'#c4963f'},
+  ice:  {top:'#bfefff', side:'#8fd3f0', soil:'#e8f4ff', soil2:'#c7def5'},
+};
+function drawTrack(p, t){
+  const L = LEVELS[lv], S = SURF[L.theme], gy = p.groundY, x0 = p.x0, ex = p.edgeX, th = H*0.045, u = Math.min(W,H);
+  // น้ำในหลุม
+  const wg = ctx.createLinearGradient(0, p.waterY-20, 0, H); wg.addColorStop(0, L.theme==='ice' ? '#6fd0f0' : '#3fa9e0'); wg.addColorStop(1, '#1d5fa8');
+  ctx.fillStyle = L.theme==='ice' ? '#e8f4ff' : S.soil2; ctx.fillRect(ex, gy+th, p.x1-ex, H);
+  ctx.fillStyle = wg; ctx.beginPath(); ctx.moveTo(ex, H);
+  for (let x=ex; x<=p.x1+10; x+=10) ctx.lineTo(x, p.waterY + Math.sin(x/30 + t/300)*5);
+  ctx.lineTo(p.x1, H); ctx.closePath(); ctx.fill();
+  if (L.theme === 'ice'){ ctx.fillStyle = '#fff'; rr((ex+p.x1)/2 - u*0.03, p.waterY - 6 + Math.sin(t/500)*3, u*0.06, 14, 6); ctx.fill(); }
+  // ดินใต้พื้น + หน้าผา
+  ctx.fillStyle = S.soil; rr(x0-30, gy, ex-x0+30, H-gy+30, u*0.02); ctx.fill();
+  ctx.fillStyle = S.soil2; for (let x=x0+30; x<ex-30; x+=70){ ctx.beginPath(); ctx.ellipse(x + (x*7)%30, gy + th + H*0.07 + (x*13)%(H*0.08), 14, 8, 0, 0, Math.PI*2); ctx.fill(); }
+  // ผิวพื้น
+  ctx.fillStyle = S.side; rr(x0-30, gy, ex-x0+30, th, u*0.015); ctx.fill();
+  ctx.fillStyle = S.top; rr(x0-30, gy, ex-x0+30, th*0.6, u*0.015); ctx.fill();
+  if (L.theme === 'road'){ ctx.fillStyle = '#fff'; for (let x=x0+20; x<ex-50; x+=80) rr(x, gy+th*0.22, 40, th*0.16, 3), ctx.fill(); }
+  if (L.theme === 'grass'){ ctx.fillStyle = '#3a8c2b'; for (let x=x0+6; x<ex-6; x+=18){ ctx.beginPath(); ctx.moveTo(x-5, gy+2); ctx.lineTo(x, gy-9-(x%3)*3); ctx.lineTo(x+5, gy+2); ctx.fill(); } }
+  if (L.theme === 'sand'){ ctx.fillStyle = '#c99a45'; for (let x=x0+12; x<ex-8; x+=26){ ctx.beginPath(); ctx.arc(x, gy+4+(x*7)%(th*0.5), 2.5, 0, Math.PI*2); ctx.fill(); }
+    ctx.fillStyle = '#ff9fb6'; for (let x=x0+60; x<ex-40; x+=230){ ctx.beginPath(); ctx.arc(x, gy+th*0.35, 7, Math.PI, 0); ctx.fill(); } }
+  if (L.theme === 'ice'){ ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 3; ctx.lineCap = 'round'; for (let x=x0+30; x<ex-40; x+=120){ ctx.beginPath(); ctx.moveTo(x, gy+th*0.25); ctx.lineTo(x+40, gy+th*0.25); ctx.moveTo(x+50, gy+th*0.4); ctx.lineTo(x+62, gy+th*0.4); ctx.stroke(); } }
+  // เส้นสตาร์ท
+  const sq = th*0.3;
+  for (let i=0;i<2;i++) for (let j=0;j<3;j++){ ctx.fillStyle = (i+j)%2 ? '#fff' : '#17325c'; ctx.fillRect(p.startX - p.cw*0.55 - sq*2 + i*sq, gy + j*sq*0.66, sq, sq*0.66); }
+  // ป้ายระวัง
+  const wx = p.startX + 0.885*p.L, ws = u*0.03;
+  ctx.fillStyle = '#7a5a3a'; ctx.fillRect(wx-2, gy-ws*2.2, 4, ws*2.2);
+  ctx.fillStyle = '#ffd23f'; ctx.strokeStyle = '#17325c'; ctx.lineWidth = 3; ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(wx, gy-ws*3.3); ctx.lineTo(wx+ws*0.75, gy-ws*2.0); ctx.lineTo(wx-ws*0.75, gy-ws*2.0); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#17325c'; ctx.font = `800 ${ws*0.8}px ${THAI}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('!', wx, gy-ws*2.4);
+  // เขตเป้าหมาย
+  const zx = s => p.startX + s*p.L;
+  const zc = ['rgba(255,255,255,.45)','rgba(123,227,154,.8)','#ffd23f'];
+  for (let k=2;k>=0;k--){ ctx.fillStyle = zc[2-k]; rr(zx(L.c-ZONES[k]), gy+1, zx(L.c+ZONES[k])-zx(L.c-ZONES[k]), th*0.5, 6); ctx.fill(); }
+  // ธงตาหมากรุก
+  const fx = zx(L.c), ph = H*0.17, fw = u*0.08, fh = u*0.05;
+  ctx.fillStyle = '#eee'; ctx.strokeStyle = '#17325c'; ctx.lineWidth = 2; rr(fx-3, gy-ph, 6, ph, 3); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#ffd23f'; ctx.beginPath(); ctx.arc(fx, gy-ph, 7, 0, Math.PI*2); ctx.fill();
+  const cols = 5, rows = 3;
+  for (let i=0;i<cols;i++) for (let j=0;j<rows;j++){
+    const w0 = Math.sin(t/220 - i*0.8)*fh*0.12, w1 = Math.sin(t/220 - (i+1)*0.8)*fh*0.12;
+    const xa = fx+3 + i*fw/cols, xb = fx+3 + (i+1)*fw/cols, ya = gy-ph+4 + j*fh/rows, yb = ya + fh/rows;
+    ctx.fillStyle = (i+j)%2 ? '#fff' : '#17325c';
+    ctx.beginPath(); ctx.moveTo(xa, ya+w0); ctx.lineTo(xb, ya+w1); ctx.lineTo(xb, yb+w1); ctx.lineTo(xa, yb+w0); ctx.closePath(); ctx.fill();
+  }
+  // จุดที่จอดครั้งก่อน
+  if (p.ghost != null && p.phase !== 'moving'){
+    const gx = zx(p.ghost);
+    ctx.setLineDash([8,8]); ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(gx, gy-p.ch*1.4); ctx.lineTo(gx, gy+th); ctx.stroke(); ctx.setLineDash([]);
+    ctx.font = `600 ${Math.max(13, u*0.022)}px ${THAI}`; ctx.lineWidth = 4; ctx.strokeStyle = '#17325c'; ctx.fillStyle = '#fff';
+    ctx.strokeText('ครั้งก่อน', gx, gy-p.ch*1.55); ctx.fillText('ครั้งก่อน', gx, gy-p.ch*1.55);
+  }
+}
+// ---------- รถมีหน้า ----------
+function face(x, y, s, mood, t){
+  const blink = mood === 'idle' && (t % 3200) < 140;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (const ex of [x - s*0.55, x + s*0.55]){
+    if (mood === 'happy'){ ctx.strokeStyle = '#17325c'; ctx.lineWidth = s*0.2; ctx.beginPath(); ctx.arc(ex, y+s*0.1, s*0.35, Math.PI*1.1, Math.PI*1.9); ctx.stroke(); continue; }
+    if (mood === 'dizzy'){ ctx.strokeStyle = '#17325c'; ctx.lineWidth = s*0.16; ctx.beginPath(); for (let a=0;a<12;a+=0.3) ctx.lineTo(ex + Math.cos(a+t/120)*a*s*0.035, y + Math.sin(a+t/120)*a*s*0.035); ctx.stroke(); continue; }
+    ctx.fillStyle = '#fff'; ctx.strokeStyle = '#17325c'; ctx.lineWidth = s*0.1;
+    ctx.beginPath(); ctx.ellipse(ex, y, s*0.42, blink ? s*0.06 : s*(mood==='scared' ? 0.58 : 0.5), 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    if (!blink){ const pr = mood === 'scared' ? s*0.13 : s*0.22, look = mood === 'scared' ? -s*0.05 : s*0.12;
+      ctx.fillStyle = '#17325c'; ctx.beginPath(); ctx.arc(ex + look, y + s*0.04, pr, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ex + look + pr*0.35, y - pr*0.3, pr*0.35, 0, Math.PI*2); ctx.fill(); }
+    if (mood === 'go' || mood === 'scared'){ ctx.strokeStyle = '#17325c'; ctx.lineWidth = s*0.12; ctx.beginPath();
+      if (mood === 'go'){ ctx.moveTo(ex - s*0.35, y - s*0.7); ctx.lineTo(ex + s*0.35, y - s*0.55); } else { ctx.moveTo(ex - s*0.3, y - s*0.75); ctx.lineTo(ex + s*0.3, y - s*0.85); }
+      ctx.stroke(); }
+  }
+  // ปาก
+  const my = y + s*0.85; ctx.strokeStyle = '#17325c'; ctx.lineWidth = s*0.14;
+  if (mood === 'scared'){ ctx.fillStyle = '#7a1f2e'; ctx.beginPath(); ctx.ellipse(x, my, s*0.22, s*0.3, 0, 0, Math.PI*2); ctx.fill(); }
+  else if (mood === 'sad' || mood === 'dizzy'){ ctx.beginPath(); for (let k=0;k<=6;k++) ctx.lineTo(x - s*0.4 + k*s*0.133, my + (k%2 ? -s*0.08 : s*0.08)); ctx.stroke(); }
+  else if (mood === 'happy' || mood === 'go'){ ctx.fillStyle = '#7a1f2e'; ctx.beginPath(); ctx.arc(x, my - s*0.15, s*0.4, 0.1*Math.PI, 0.9*Math.PI); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#ff8fa3'; ctx.beginPath(); ctx.arc(x, my + s*0.1, s*0.15, 0, Math.PI); ctx.fill(); }
+  else { ctx.beginPath(); ctx.arc(x, my - s*0.2, s*0.3, 0.2*Math.PI, 0.8*Math.PI); ctx.stroke(); }
+  // แก้มแดง
+  if (mood === 'happy' || mood === 'idle'){ ctx.fillStyle = 'rgba(255,120,150,.55)'; ctx.beginPath(); ctx.ellipse(x - s*0.95, y + s*0.55, s*0.2, s*0.12, 0, 0, Math.PI*2); ctx.ellipse(x + s*0.95, y + s*0.55, s*0.2, s*0.12, 0, 0, Math.PI*2); ctx.fill(); }
+}
+function wheel(x, y, r, ang){
+  ctx.fillStyle = '#26283a'; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#d9dce8'; ctx.beginPath(); ctx.arc(x, y, r*0.55, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#8a8ea3'; ctx.lineWidth = r*0.14; ctx.lineCap = 'round';
+  for (let k=0;k<3;k++){ const a = ang + k*Math.PI*2/3; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + Math.cos(a)*r*0.5, y + Math.sin(a)*r*0.5); ctx.stroke(); }
 }
 function drawCar(p, t){
-  const car = CARS[carType], w = p.cw, h = p.ch;
-  const cx = carX(p), x = cx - w/2, y = p.groundY - h - 4 + p.fallY;
-  ctx.save();
-  if (p.phase === 'falling'){ ctx.translate(cx, y + h/2); ctx.rotate(p.rot); ctx.translate(-cx, -(y + h/2)); }
-  const bump = p.phase==='moving' && p.v > 0.05 ? (Math.floor(t/60)%2)*4 : 0;
-  const by = y - bump;
-  ctx.fillStyle = INK;
-  if (carType === 0){ // รถเข็น
-    ctx.fillRect(x-6, by+h*0.15-6, w*0.85+12, h*0.6+12);
-    ctx.fillStyle = car.body; ctx.fillRect(x, by+h*0.15, w*0.85, h*0.6);
-    ctx.fillStyle = car.top; for (let i=0;i<3;i++) ctx.fillRect(x+8+i*w*0.27, by+h*0.25, w*0.18, h*0.15);
-    ctx.fillStyle = INK; ctx.fillRect(x+w*0.85, by-h*0.15, 10, h*0.6); ctx.fillRect(x+w*0.85, by-h*0.15, w*0.18, 10);
-  } else if (carType === 1){ // รถเก๋ง
-    ctx.fillRect(x-6, by+h*0.35-6, w+12, h*0.45+12);
-    ctx.fillRect(x+w*0.2-6, by-6, w*0.55+12, h*0.4+12);
-    ctx.fillStyle = car.body; ctx.fillRect(x, by+h*0.35, w, h*0.45); ctx.fillRect(x+w*0.2, by, w*0.55, h*0.4);
-    ctx.fillStyle = car.top; ctx.fillRect(x+w*0.27, by+8, w*0.18, h*0.25); ctx.fillRect(x+w*0.5, by+8, w*0.18, h*0.25);
-    ctx.fillStyle = '#ffef6b'; ctx.fillRect(x+w-12, by+h*0.42, 12, 10);
-  } else { // รถบรรทุก
-    ctx.fillRect(x-6, by-6, w*0.68+12, h*0.8+12); ctx.fillRect(x+w*0.68, by+h*0.25-6, w*0.32+6, h*0.55+12);
-    ctx.fillStyle = '#f0f0f0'; ctx.fillRect(x, by, w*0.68, h*0.8);
-    ctx.fillStyle = '#d0d0d8'; for (let i=1;i<4;i++) ctx.fillRect(x+i*w*0.17, by+4, 4, h*0.8-8);
-    ctx.fillStyle = car.body; ctx.fillRect(x+w*0.68, by+h*0.25, w*0.32, h*0.55);
-    ctx.fillStyle = car.top; ctx.fillRect(x+w*0.76, by+h*0.32, w*0.16, h*0.2);
-  }
-  // ล้อ
-  const wr = Math.max(12, h*0.22), wy = y + h - wr*0.6, spin = Math.floor(p.s*40) % 2;
-  for (const wx of carType===0 ? [x+w*0.15, x+w*0.7] : [x+w*0.2, x+w*0.8]){
-    ctx.fillStyle = INK; ctx.fillRect(wx-wr, wy-wr, wr*2, wr*2);
-    ctx.fillStyle = '#9a9aa8'; ctx.fillRect(wx-wr*0.4, wy-wr*0.4, wr*0.8, wr*0.8);
-    ctx.fillStyle = INK; ctx.fillRect(spin ? wx-wr*0.4 : wx-2, spin ? wy-2 : wy-wr*0.4, spin ? wr*0.8 : 4, spin ? 4 : wr*0.8);
-  }
+  const car = CARS[carType], w = p.cw, h = p.ch, cx = carX(p), gy = p.groundY;
+  const moving = p.phase === 'moving' && p.v > 0.03;
+  // เงา
+  if (p.phase !== 'falling'){ ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.ellipse(cx, gy+3, w*0.55, h*0.09, 0, 0, Math.PI*2); ctx.fill(); }
   // เส้นความเร็ว
-  if (p.phase==='moving' && p.v > 0.4){ ctx.fillStyle='rgba(255,255,255,.8)'; for (let i=0;i<3;i++) ctx.fillRect(x - 30 - i*24 - (t/20%20), y + h*(0.2+i*0.25), 20 + p.v*20, 6); }
+  if (moving && p.v > 0.35){ ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineCap = 'round'; ctx.lineWidth = 5;
+    for (let i=0;i<4;i++){ const ly = gy - h*(0.25+i*0.2), lx = cx - w*0.65 - ((t/4 + i*30) % 40); ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(lx - w*0.25*p.v, ly); ctx.stroke(); } }
+  const bump = moving ? Math.abs(Math.sin(t/55))*h*0.05 : p.phase === 'ready' ? Math.abs(Math.sin(t/380))*h*0.03 : 0;
+  const hop = p.phase === 'result' && p.last > 0 ? Math.abs(Math.sin(t/160))*h*0.35 : 0;
+  const sq = p.squash, sx = 1 + sq*0.12, sy = 1 - sq*0.12;
+  ctx.save();
+  ctx.translate(cx, gy + p.fallY - bump - hop);
+  if (p.phase === 'falling' || p.splashT >= 0) { ctx.translate(0, -h*0.5); ctx.rotate(Math.min(p.rot, 2.4)); ctx.translate(0, h*0.5); }
+  ctx.scale(sx, sy);
+  const r = h*0.22, ang = p.s*p.L/r;
+  ctx.lineJoin = 'round';
+  const outline = () => { ctx.lineWidth = Math.max(3, w*0.025); ctx.strokeStyle = '#17325c'; ctx.stroke(); };
+  if (carType === 0){ // โกคาร์ท: ตัวกลม ๆ นั่งอยู่บนรถ
+    ctx.fillStyle = car.body; rr(-w*0.5, -r*2.1, w, r*1.15, r*0.5); ctx.fill(); outline();
+    ctx.fillStyle = car.dark; rr(-w*0.52, -r*1.35, w*0.25, r*0.5, r*0.2); ctx.fill();
+    ctx.fillStyle = '#ffd23f'; ctx.beginPath(); ctx.arc(w*0.43, -r*1.6, r*0.22, 0, Math.PI*2); ctx.fill();
+    // คนขับ (หัวกลม = ตัวละคร)
+    const hx = -w*0.05, hy = -r*2.1 - h*0.32, hr = h*0.36;
+    ctx.fillStyle = car.light; ctx.beginPath(); ctx.arc(hx, hy, hr, 0, Math.PI*2); ctx.fill(); outline();
+    ctx.fillStyle = car.body; ctx.beginPath(); ctx.arc(hx, hy, hr, Math.PI*1.05, Math.PI*1.95); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#17325c'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(w*0.18, -r*2.1); ctx.lineTo(w*0.26, -r*2.1 - h*0.25); ctx.stroke();
+    face(hx + hr*0.15, hy + hr*0.1, hr*0.3, p.mood, t);
+    wheel(-w*0.32, -r, r*1.1, ang); wheel(w*0.32, -r, r*1.1, ang);
+  } else if (carType === 1){ // รถเก๋ง
+    ctx.fillStyle = car.body; rr(-w*0.32, -h*1.0, w*0.6, h*0.55, h*0.24); ctx.fill(); outline();
+    ctx.fillStyle = '#d6f1ff'; rr(-w*0.25, -h*0.92, w*0.47, h*0.4, h*0.16); ctx.fill();
+    ctx.fillStyle = car.body; rr(-w*0.5, -h*0.62, w, h*0.42, h*0.16); ctx.fill(); outline();
+    ctx.fillStyle = car.dark; rr(-w*0.5, -h*0.32, w, h*0.1, 4); ctx.fill();
+    ctx.fillStyle = '#ffe066'; ctx.beginPath(); ctx.arc(w*0.45, -h*0.48, h*0.07, 0, Math.PI*2); ctx.fill();
+    face(w*0.0, -h*0.74, h*0.13, p.mood, t);
+    wheel(-w*0.3, -r, r, ang); wheel(w*0.3, -r, r, ang);
+  } else { // รถบรรทุก
+    ctx.fillStyle = '#ffffff'; rr(-w*0.5, -h*1.05, w*0.62, h*0.8, h*0.08); ctx.fill(); outline();
+    ctx.fillStyle = car.body; rr(-w*0.5, -h*0.7, w*0.62, h*0.14, 3); ctx.fill();
+    ctx.fillStyle = car.dark; ctx.font = `800 ${h*0.16}px ${THAI}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('ขนของ', -w*0.19, -h*0.88);
+    ctx.fillStyle = car.body; rr(w*0.1, -h*0.82, w*0.4, h*0.62, h*0.14); ctx.fill(); outline();
+    ctx.fillStyle = '#d6f1ff'; rr(w*0.18, -h*0.74, w*0.26, h*0.26, h*0.08); ctx.fill();
+    ctx.fillStyle = '#ffe066'; ctx.beginPath(); ctx.arc(w*0.47, -h*0.35, h*0.06, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#26283a'; rr(-w*0.52, -h*0.27, w*1.04, h*0.08, 3); ctx.fill();
+    face(w*0.31, -h*0.6, h*0.09, p.mood, t);
+    wheel(-w*0.33, -r, r, ang); wheel(-w*0.1, -r, r, ang); wheel(w*0.32, -r, r, ang);
+  }
   ctx.restore();
+  // ไอเสีย
+  if (moving && Math.random() < 0.3) particles.push({x: cx - w*0.55, y: gy - h*0.25 + p.fallY, vx:-60-Math.random()*40, vy:-30, c:'rgba(230,230,240,.9)', life:0.7, g:-40, r:5+Math.random()*5, puff:true});
+  // ดาวหมุนตอนมึน
+  if (p.mood === 'dizzy' && p.splashT >= 0){ for (let k=0;k<3;k++){ const a = t/250 + k*2.1; ctx.save(); star(cx + Math.cos(a)*w*0.35, p.waterY - h*0.9 + Math.sin(a)*h*0.15, h*0.1, true); ctx.restore(); } }
+}
+function drawBubble(p){
+  const b = p.bubble; if (!b || p.phase === 'wait') return;
+  const u = Math.min(W,H), f = Math.max(16, u*0.03), cx = carX(p) + p.cw*0.1;
+  const y = (p.splashT >= 0 ? p.waterY - p.ch*1.4 : p.groundY + p.fallY - p.ch*(carType===0 ? 2.0 : 1.55)) - f*1.4;
+  ctx.font = `700 ${f}px ${FUN}`; const w = ctx.measureText(b.text).width + f*1.2, h = f*1.7;
+  const x = Math.max(p.x0 + 8, Math.min(p.x1 - w - 8, cx - w*0.3));
+  ctx.globalAlpha = Math.min(1, b.t*3);
+  ctx.fillStyle = '#fff'; ctx.strokeStyle = '#17325c'; ctx.lineWidth = 3;
+  rr(x, y - h/2, w, h, h*0.45); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx - f*0.3, y + h/2 - 2); ctx.lineTo(cx, y + h/2 + f*0.6); ctx.lineTo(cx + f*0.35, y + h/2 - 2); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(cx - f*0.3, y + h/2); ctx.lineTo(cx, y + h/2 + f*0.6); ctx.lineTo(cx + f*0.35, y + h/2); ctx.stroke();
+  ctx.fillStyle = '#17325c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(b.text, x + w/2, y + 1);
+  ctx.globalAlpha = 1;
+}
+// ลูกศรบอกให้ปัด
+function drawSwipeGuide(p, t){
+  if (p.phase !== 'ready' || p.stroke || intro > 0) return;
+  const u = Math.min(W,H), y = H*0.42, x0 = p.x0 + p.pw*0.15, x1 = p.x1 - p.pw*0.15, k = (t/900) % 1;
+  ctx.globalAlpha = 0.85;
+  for (let i=0;i<5;i++){ const q = (i/5 + k) % 1, x = x0 + (x1-x0)*q, a = Math.sin(q*Math.PI);
+    ctx.globalAlpha = a*0.9; ctx.strokeStyle = '#fff'; ctx.lineWidth = u*0.018; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(x - u*0.03, y - u*0.05); ctx.lineTo(x + u*0.02, y); ctx.lineTo(x - u*0.03, y + u*0.05); ctx.stroke(); }
+  ctx.globalAlpha = 1;
+  label('แบมือ ปัดไปทางขวา! ➜', (p.x0+p.x1)/2, y + u*0.1, Math.max(18, u*(mode==='solo' ? 0.045 : 0.035)), '#fff');
 }
 const BONES=[[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
 function drawHand(p){
-  if (!p.hand.seen) return;
-  const col = mode==='duo' ? P_COLORS[p.idx] : '#8fe9ff';
-  if (p.pts){
-    ctx.lineCap='square';
-    ctx.strokeStyle=INK; ctx.lineWidth=12; for (const [a,b] of BONES){ ctx.beginPath(); ctx.moveTo(p.pts[a].x,p.pts[a].y); ctx.lineTo(p.pts[b].x,p.pts[b].y); ctx.stroke(); }
-    ctx.strokeStyle=col; ctx.lineWidth=6; for (const [a,b] of BONES){ ctx.beginPath(); ctx.moveTo(p.pts[a].x,p.pts[a].y); ctx.lineTo(p.pts[b].x,p.pts[b].y); ctx.stroke(); }
-    ctx.fillStyle='#fff'; for (const q of p.pts) ctx.fillRect(q.x-5,q.y-5,10,10);
+  const h = p.hand; if (!h.seen) return;
+  const col = mode==='duo' ? P_COLORS[p.idx] : '#8fe9ff', active = !!p.stroke;
+  // ลมตามมือตอนปัด
+  if (active && p.trail.length > 1){
+    ctx.lineCap = 'round';
+    for (let i=1;i<p.trail.length;i++){ const a = p.trail[i-1], b = p.trail[i];
+      ctx.strokeStyle = `rgba(255,255,255,${i/p.trail.length*0.8})`; ctx.lineWidth = h.hr*0.6*i/p.trail.length;
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
   }
-  const r = Math.min(W,H)*0.045, hx = p.hand.x, hy = p.hand.y;
-  ctx.fillStyle=INK; ctx.fillRect(hx-r-6, hy-r-6, r*2+12, 14); ctx.fillRect(hx-r-6, hy+r-8, r*2+12, 14); ctx.fillRect(hx-r-6, hy-r-6, 14, r*2+12); ctx.fillRect(hx+r-8, hy-r-6, 14, r*2+12);
-  ctx.fillStyle = col; ctx.fillRect(hx-r-2, hy-r-2, r*2+4, 6); ctx.fillRect(hx-r-2, hy+r-4, r*2+4, 6); ctx.fillRect(hx-r-2, hy-r-2, 6, r*2+4); ctx.fillRect(hx+r-4, hy-r-2, 6, r*2+4);
+  if (h.pts){
+    ctx.lineCap = 'round';
+    ctx.strokeStyle='rgba(0,0,0,.6)'; ctx.lineWidth=8; for (const [a,b] of BONES){ ctx.beginPath(); ctx.moveTo(h.pts[a].x,h.pts[a].y); ctx.lineTo(h.pts[b].x,h.pts[b].y); ctx.stroke(); }
+    ctx.strokeStyle=col; ctx.lineWidth=4; for (const [a,b] of BONES){ ctx.beginPath(); ctx.moveTo(h.pts[a].x,h.pts[a].y); ctx.lineTo(h.pts[b].x,h.pts[b].y); ctx.stroke(); }
+    ctx.fillStyle='#fff'; for (const q of h.pts){ ctx.beginPath(); ctx.arc(q.x,q.y,5,0,Math.PI*2); ctx.fill(); }
+  }
+  ctx.beginPath(); ctx.arc(h.x, h.y, h.hr, 0, Math.PI*2);
+  ctx.fillStyle = active ? 'rgba(255,210,63,.22)' : 'rgba(255,255,255,.1)'; ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.lineWidth = 10; ctx.stroke();
+  ctx.strokeStyle = active ? '#ffd23f' : col; ctx.lineWidth = 6; ctx.stroke();
 }
+function pill(x, y, w, h, fill='rgba(23,50,92,.82)'){ ctx.fillStyle = fill; rr(x, y, w, h, h/2); ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 3; ctx.stroke(); }
 function drawHUD(p){
-  const ctx = U, f = Math.max(17, Math.min(W,H)*0.036), L = LEVELS[lv];
-  ctx.font = `800 ${f}px ${THAI}`; ctx.textBaseline='middle'; ctx.textAlign='left';
-  const txt = mode==='solo' ? `ด่าน ${lv+1}/4  ${L.name}   ครั้งที่ ${shot+1}/${SHOTS}` : `${P_NAMES[p.idx]}  ด่าน ${lv+1}/4`;
-  const w = ctx.measureText(txt).width + 36, x = p.idx===1 ? p.x1-16-w-8 : p.x0+16;
-  sticker(x, 16, w, f*1.7, mode==='duo' ? P_COLORS[p.idx] : PAPER);
-  ctx.fillStyle = mode==='duo' ? '#000' : '#fff'; ctx.fillText(txt, x+18, 16+f*0.85);
-  // ดาวสะสมแต่ละด่าน
-  const ss = f*1.1; let sx = p.idx===1 ? p.x1 - 16 - (ss+6)*12 - 40 : p.x0 + 16 + ss/2, sy = 16 + f*1.7 + 18 + ss/2;
-  for (let i=0;i<LEVELS.length;i++){ for (let k=0;k<3;k++){ pixStar(sx, sy, ss, p.stars[i] > k); sx += ss + 6; } sx += 14; }
+  const u = Math.min(W,H), f = Math.max(16, u*0.032), L = LEVELS[lv], right = p.idx === 1;
+  ctx.font = `600 ${f}px ${THAI}`; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  const txt = mode==='solo' ? `ด่าน ${lv+1}/4 · ${L.name} (${L.surf})   ครั้งที่ ${shot+1}/${SHOTS}` : `${P_NAMES[p.idx]} · ด่าน ${lv+1}/4 · ครั้งที่ ${shot+1}/${SHOTS}`;
+  const w = ctx.measureText(txt).width + f*1.6, x = right ? p.x1 - 16 - w : p.x0 + 16;
+  pill(x, 14, w, f*1.9, mode==='duo' ? P_COLORS[p.idx] : 'rgba(23,50,92,.82)');
+  ctx.fillStyle = '#fff'; ctx.fillText(txt, x + f*0.8, 14 + f*0.97);
+  // ดาวแต่ละด่าน
+  const sr = f*0.5, gap = sr*2.3, totalW = LEVELS.length*(3*gap) + (LEVELS.length-1)*sr;
+  let sx = right ? p.x1 - 16 - totalW + sr : p.x0 + 16 + sr; const sy = 14 + f*1.9 + sr + 10;
+  for (let i=0;i<LEVELS.length;i++){ for (let k=0;k<3;k++){ star(sx, sy, sr, p.stars[i] > k); sx += gap; } sx += sr; }
   // มาตรวัดแรง
-  if (p.v0 > 0){
-    const bw = Math.min(220, (p.x1-p.x0)*0.3), bx = p.idx===1 ? p.x1-16-bw-8 : p.x0+16, by = sy + ss/2 + 18;
-    ctx.font = `800 ${f*0.75}px ${THAI}`; ctx.fillStyle='#fff'; ctx.strokeStyle='#000'; ctx.lineWidth=5;
-    ctx.strokeText('แรงที่ใช้', bx, by+10); ctx.fillText('แรงที่ใช้', bx, by+10);
-    const mx = bx + f*3.6, mw = bw;
-    ctx.fillStyle='#000'; ctx.fillRect(mx-4, by-4, mw+8, 28); ctx.fillStyle='#3a2f7a'; ctx.fillRect(mx, by, mw, 20);
-    const n = Math.round(Math.min(1, p.v0*CARS[carType].m/3)*10);
-    for (let k=0;k<n;k++){ ctx.fillStyle = k<4 ? '#7be39a' : k<7 ? '#ffcf33' : '#ff6b5e'; ctx.fillRect(mx+2+k*mw/10, by+2, mw/10-4, 16); }
-  }
+  const live = p.stroke ? Math.min(1, p.stroke.peak/FMAX) : p.power;
+  const bw = Math.min(260, p.pw*0.32), bh = f*0.9, bx = right ? p.x1 - 16 - bw : p.x0 + 16 + f*3.4, by = sy + sr + 14;
+  ctx.font = `700 ${f*0.8}px ${THAI}`; ctx.textAlign = 'right'; ctx.lineWidth = 5; ctx.strokeStyle = '#17325c'; ctx.fillStyle = '#fff';
+  ctx.strokeText('แรง', bx - 10, by + bh/2); ctx.fillText('แรง', bx - 10, by + bh/2);
+  ctx.fillStyle = 'rgba(23,50,92,.75)'; rr(bx-3, by-3, bw+6, bh+6, (bh+6)/2); ctx.fill();
+  if (live > 0){ const g = ctx.createLinearGradient(bx, 0, bx+bw, 0); g.addColorStop(0,'#7be39a'); g.addColorStop(0.55,'#ffd23f'); g.addColorStop(1,'#ff5a6e');
+    ctx.save(); rr(bx, by, bw, bh, bh/2); ctx.clip(); ctx.fillStyle = g; ctx.fillRect(bx, by, bw*live, bh); ctx.restore(); }
 }
 function drawDuoMiddle(){
-  const ctx = U;
   ctx.strokeStyle='#fff'; ctx.lineWidth=4; ctx.setLineDash([14,12]);
   ctx.beginPath(); ctx.moveTo(W/2,0); ctx.lineTo(W/2,H); ctx.stroke(); ctx.setLineDash([]);
-  label('VS', W/2, H*0.4, Math.min(W,H)*0.07, '#ffcf33');
+  label('VS', W/2, H*0.36, Math.min(W,H)*0.07, '#ffd23f');
 }
 function drawMsg(p, dt){
   const m = p.msg; if (!m) return;
   m.t -= dt; if (m.t <= 0){ p.msg = null; return; }
-  const ctx = U, pw = p.x1-p.x0, f = Math.max(18, Math.min(pw, H*1.6)*(mode==='solo'?0.032:0.036));
-  const w = Math.min(pw*0.85, 900), h = f*3.6, x = p.x0 + (pw-w)/2, y = H*0.26;
+  const pw = p.pw, f = Math.max(18, Math.min(pw, H*1.6)*(mode==='solo'?0.03:0.036));
+  const w = Math.min(pw*0.85, 820), h = f*3.8, x = p.x0 + (pw-w)/2, y = H*0.2;
   ctx.globalAlpha = Math.min(1, m.t*2);
-  sticker(x, y, w, h, PAPER);
+  ctx.fillStyle = 'rgba(255,255,255,.95)'; rr(x, y, w, h, f); ctx.fill();
+  ctx.strokeStyle = m.ok ? '#3fbf6a' : '#ff5a6e'; ctx.lineWidth = 5; ctx.stroke();
   ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.font=`800 ${f}px ${THAI}`; ctx.fillStyle = m.ok ? '#7be39a' : '#ff6b5e';
-  ctx.fillText(m.title, x+w/2, y+f*1.0, w-24);
-  const ss = f*1.3; for (let k=0;k<3;k++) pixStar(x+w/2 + (k-1)*(ss+12), y+f*2.5, ss, m.n > k);
+  ctx.font=`700 ${f}px ${FUN}`; ctx.fillStyle = m.ok ? '#1f8f4a' : '#d6334b';
+  ctx.fillText(m.title, x+w/2, y+f*1.15, w-24);
+  const sr = f*0.6; for (let k=0;k<3;k++) star(x+w/2 + (k-1)*sr*2.6, y+f*2.65, sr, m.n > k);
   ctx.globalAlpha = 1;
 }
 function drawIntro(dt){
   intro -= dt;
-  const L = LEVELS[lv], f = Math.min(W,H)*0.04, w = Math.min(W*0.8, 900), h = f*5.4, x = (W-w)/2, y = H*0.2;
-  sticker(x, y, w, h, PAPER);
-  label(`ด่าน ${lv+1}: ${L.name}`, W/2, y+f*1.3, f*1.5, '#ffcf33');
-  const ctx = U; ctx.font = `800 ${f*0.85}px ${THAI}`; ctx.fillStyle='#fff'; ctx.textAlign='center';
-  ctx.fillText(L.hint, W/2, y+f*3.0, w-30);
-  ctx.font = `${f*0.7}px ${THAI}`; ctx.fillStyle='#a9a2d6'; ctx.fillText(L.fact, W/2, y+f*4.3, w-30);
+  const L = LEVELS[lv], u = Math.min(W,H), f = u*0.04, w = Math.min(W*0.82, 880), h = f*6, x = (W-w)/2, y = H*0.17;
+  const pop = Math.min(1, (3.2 - intro)*4), a = Math.min(1, intro*3);
+  ctx.globalAlpha = a; ctx.save(); ctx.translate(W/2, y + h/2); ctx.scale(0.8 + 0.2*pop, 0.8 + 0.2*pop); ctx.translate(-W/2, -(y + h/2));
+  ctx.fillStyle = 'rgba(255,255,255,.96)'; rr(x, y, w, h, f); ctx.fill(); ctx.strokeStyle = '#1f5fc4'; ctx.lineWidth = 6; ctx.stroke();
+  label(`ด่าน ${lv+1}: ${L.name}`, W/2, y+f*1.4, f*1.5, '#ff4f6d');
+  ctx.font = `600 ${f*0.85}px ${THAI}`; ctx.fillStyle='#17325c'; ctx.textAlign='center'; ctx.textBaseline = 'middle';
+  ctx.fillText(`พื้น${L.surf}: ${L.hint}`, W/2, y+f*3.2, w-30);
+  ctx.font = `400 ${f*0.72}px ${THAI}`; ctx.fillStyle='#5a7499'; ctx.fillText(L.fact, W/2, y+f*4.6, w-30);
+  ctx.restore(); ctx.globalAlpha = 1;
   if (intro <= 0) players.forEach(resetShot);
 }
 function drawParticles(dt){
   for (const p of particles){
-    if (p.slow){ p.vx += (Math.random()-0.5)*40*dt; p.vy = Math.min(p.vy + 40*dt, 260); } else p.vy += (p.g||900)*dt;
+    if (p.slow){ p.vx += (Math.random()-0.5)*40*dt; p.vy = Math.min(p.vy + 40*dt, 260); p.rot += dt*4; } else p.vy += (p.g ?? 900)*dt;
     p.x += p.vx*dt; p.y += p.vy*dt; p.life -= dt*(p.slow?0.6:1.3);
     ctx.globalAlpha = Math.max(0, Math.min(1, p.life)); ctx.fillStyle = p.c;
-    ctx.fillRect(Math.round(p.x/4)*4, Math.round(p.y/4)*4, 12, 12);
+    if (p.slow){ ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillRect(-p.r, -p.r*0.5, p.r*2, p.r); ctx.restore(); }
+    else { const r = p.puff ? p.r*(1.6 - p.life*0.6) : p.r; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI*2); ctx.fill(); }
   }
   ctx.globalAlpha = 1; particles = particles.filter(p => p.life > 0 && p.y < H+40);
 }
@@ -468,46 +742,38 @@ function drawCountdown(dt){
   if (n !== lastBeep && n >= 1){ sfx.beep(); lastBeep = n; }
   if (countdown <= 0){ sfx.go(); state = 'play'; beginLevel(); return; }
   const frac = countdown - Math.floor(countdown);
-  label(String(n), W/2, H*0.36, Math.min(W,H)*(0.2 + 0.07*frac), '#ffcf33');
-  label(mode==='duo' ? 'ยืนคนละฝั่ง แล้วยกมือขึ้น!' : 'สตาร์ทเครื่อง! ยกมือขึ้นเลย', W/2, H*0.55, Math.min(W,H)*0.05);
+  label(String(n), W/2, H*0.34, Math.min(W,H)*(0.2 + 0.07*frac), '#ffd23f');
+  label(mode==='duo' ? 'ยืนคนละฝั่ง แล้วยกมือขึ้น!' : 'สตาร์ทเครื่อง! ยกมือขึ้นเลย', W/2, H*0.52, Math.min(W,H)*0.05);
 }
 function drawWinner(){
   if (!banner || !banner.p) return;
   const p = banner.p, s = 1 + Math.sin(performance.now()/180)*0.06;
-  label('ชนะ!', (p.x0+p.x1)/2, H*0.36, Math.min(W,H)*0.16*s, P_COLORS[p.idx]);
+  label('ชนะ!', (p.x0+p.x1)/2, H*0.34, Math.min(W,H)*0.16*s, P_COLORS[p.idx]);
 }
 
 function loop(t){
   const dt = Math.min(0.05, (t-lastT)/1000 || 0); lastT = t;
-  trackHands(); U.clearRect(0,0,W,H); drawBG(t);
+  trackHands(); drawSky(t);
   if (state !== 'menu' && players.length){
     if (state === 'play' && intro <= 0){ players.forEach(p => updatePlayer(p, dt, t)); advance(); }
+    else players.forEach(p => updateSwipe(p, t));
+    drawScenery(t);
     players.forEach(p => drawTrack(p, t));
     players.forEach(p => drawCar(p, t));
+    drawParticles(dt);
     if (mode === 'duo') drawDuoMiddle();
+    players.forEach(p => drawSwipeGuide(p, t));
+    players.forEach(drawBubble);
     players.forEach(drawHUD);
     players.forEach(p => drawMsg(p, dt));
     if (state === 'countdown') drawCountdown(dt);
     if (state === 'play' && intro > 0) drawIntro(dt);
     drawWinner();
-  }
-  drawParticles(dt);
+  } else drawParticles(dt);
   players.forEach(drawHand);
   requestAnimationFrame(loop);
 }
-function pixelTitle(el, text, color='#ffcf33'){
-  const sz = 22, c = document.createElement('canvas'), x = c.getContext('2d');
-  x.font = `800 ${sz}px ${THAI}`;
-  c.width = Math.ceil(x.measureText(text).width) + 12; c.height = sz*1.7;
-  x.font = `800 ${sz}px ${THAI}`; x.textBaseline = 'middle'; x.lineJoin = 'miter';
-  x.lineWidth = 6; x.strokeStyle = '#000'; x.strokeText(text, 6, c.height/2+2);
-  x.fillStyle = color; x.fillText(text, 6, c.height/2+2);
-  const scale = Math.min(3, (Math.min(innerWidth*0.82, 820)) / c.width);
-  c.style.width = c.width*scale + 'px'; c.style.height = c.height*scale + 'px';
-  el.innerHTML = ''; el.appendChild(c);
-}
-window.__p = () => ({players, lv, shot, intro, state});
-document.fonts.ready.then(()=> pixelTitle(document.querySelector('#start h1'), 'แรงดันจอมซิ่ง!', '#ff8a3d'));
+window.__p = () => ({players, lv, shot, intro, state, push});
 resize(); initHands(); requestAnimationFrame(loop);
 </script>
 </body>
